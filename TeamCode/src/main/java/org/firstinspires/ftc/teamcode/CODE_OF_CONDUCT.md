@@ -1,3 +1,4 @@
+<!-- This document was created with help from AI and edited by @swapnild. -->
 # Team BioBuzz (37261) - Code of Conduct
 
 ## Overview
@@ -30,8 +31,24 @@ We use Git not just to save code, but to tell the story of our engineering journ
 
 ### 2.2 The Pull Request (PR) Workflow
 *   **Peer Review:** No code is merged into the main branch without a peer or mentor review.
+*   **Be Proactive:** Don't wait to be asked; be proactive about picking up open PRs to review for your teammates.
+*   **Quality Feedback:** Provide detailed feedback. When possible, sit down and look at the code together to ensure shared understanding.
 *   **Demonstration:** Before merging, the author should be prepared to demonstrate the code's functionality on the robot (or a simulation).
 *   **History is Documentation:** Remember that judges may look at our GitHub history to see how we solved problems. A history of thoughtful, incremental changes is much more impressive than a series of large, unexplained blocks.
 
 ---
-*Note: Additional sections regarding Teamwork, Safety, and Competition Conduct will be added here.*
+
+## 3. Teamwork
+Collaboration is the core of BioBuzz. We work as a unified unit to ensure the success of the robot and the growth of every team member.
+
+### 3.1 Knowledge Sharing and Collaborative Decisions
+*   **No Silos:** No part of the robot or code should be "owned" by only one person. If you are the lead on a subsystem, your responsibility is to mentor others so the team remains functional regardless of individual attendance.
+*   **Inclusive Decisions:** When deciding on major design changes (code architecture or mechanical hardware), all affected team members must be given a chance to voice their opinions. We value diverse perspectives and collaborative planning before finalizing a path.
+
+### 3.2 Productive Communication and Conflict Resolution
+*   **The 20-Minute Rule:** If you are stuck on a technical problem (a bug, a mechanical issue, or a concept) for more than 20 minutes, you must ask a teammate or mentor for help. We value solving problems together over struggling in silence.
+*   **Gracious Feedback:** When reviewing work, focus on the *work*, not the *person*. Use constructive language (e.g., "I find this logic hard to follow") rather than personal critique.
+*   **Managing Disagreements:** Disagreements are a natural part of engineering. When the team cannot reach a consensus, we will use evidence-based methods—such as prototypes, testing, or "Pro/Con" lists—to decide the best path forward.
+
+---
+*Note: Additional sections regarding Safety and Competition Conduct will be added here.*
