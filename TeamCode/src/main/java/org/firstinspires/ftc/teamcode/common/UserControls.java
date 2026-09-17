@@ -3,30 +3,28 @@ package org.firstinspires.ftc.teamcode.common;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class UserControls {
-    private final double deadZone = 0.005;
+    private static final double deadZone = 0.05;
 
 
-    private double getDeadZone(double value) { return Math.abs(value) < deadZone ? 0 : value; }
+    private static double getDeadZone(double value) { return Math.abs(value) < deadZone ? 0 : value; }
 
-    public static double getL2Button(Gamepad gamepad) { return gamepad.left_trigger; }
+    public static double getL2Button(Gamepad gamepad) { return getDeadZone(gamepad.left_trigger); }
 
-    public static double getR2Button(Gamepad gamepad) { return gamepad.right_trigger; }
+    public static double getR2Button(Gamepad gamepad) { return getDeadZone(gamepad.right_trigger); }
 
-    public static double getLeftAnalogY(Gamepad gamepad){ return -gamepad.left_stick_y; }
+    public static double getLeftAnalogY(Gamepad gamepad){ return getDeadZone(-gamepad.left_stick_y); }
 
-    public static double getLeftAnalogX(Gamepad gamepad){ return gamepad.left_stick_x; }
+    public static double getLeftAnalogX(Gamepad gamepad){ return getDeadZone(gamepad.left_stick_x); }
 
-    public static double getRightAnalogX(Gamepad gamepad){ return gamepad.right_stick_x; }
+    public static double getRightAnalogX(Gamepad gamepad){ return getDeadZone(gamepad.right_stick_x); }
 
-    public static double getRightAnalogY(Gamepad gamepad){ return gamepad.right_stick_y; }
+    public static double getRightAnalogY(Gamepad gamepad){ return getDeadZone(gamepad.right_stick_y); }
 
     public static boolean getShareButton(Gamepad gamepad){ return gamepad.share; }
 
     public static boolean getOptionsButton(Gamepad gamepad){ return gamepad.options; }
 
-    public static boolean getTriangleButton(Gamepad gamepad) {
-        return gamepad.triangle;
-    }
+    public static boolean getTriangleButton(Gamepad gamepad) { return gamepad.triangle; }
 
     public static boolean getCircleButton(Gamepad gamepad) { return gamepad.circle; }
 
