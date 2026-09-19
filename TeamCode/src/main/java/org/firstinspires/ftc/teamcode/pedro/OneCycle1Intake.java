@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedro;
 
 
-
-
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
@@ -11,10 +9,7 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
+import static com.pedropathing.api.Paths.curve;
 import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.api.Paths.path;
 import static com.pedropathing.ivy.Scheduler.schedule;
@@ -32,11 +27,18 @@ public class OneCycle1Intake extends OpMode {
     // Initialize poses
     public Constants constants = new Constants();
     private final PoseFactory poseFactory = PoseFactory.degrees();
-    private final Pose startPose = null;
-    private final Pose launchPose = null;
-    private final Pose HPIntakeApproach = null;
-    private final Pose HPintake = null;
-    private final Pose Park = null;
+
+    private Pose startPose = PoseFactory.degrees().of(0,0,0);
+    private Pose launchPose = PoseFactory.degrees().of(0,0,0);
+    private Pose HPIntakeApproach = PoseFactory.degrees().of(0,0,0);
+    private Pose HPintake = PoseFactory.degrees().of(0,0,0);
+    private Pose Park = PoseFactory.degrees().of(0,0,0);
+
+    private Pose ParkControlPoint = PoseFactory.degrees().of(0,0,0);
+
+
+
+
 
     private enum Alliance {BLUE, RED, UNKNOWN}
 
@@ -60,7 +62,7 @@ public class OneCycle1Intake extends OpMode {
 
     //private TelemetryManager panelsTelemetry; // Panels telemetry
 
-// Add robot Master states
+    // Add robot Master states
     private enum masterStateEnum {}
 
     private enum masterSideState {BLUE, RED}
@@ -68,30 +70,36 @@ public class OneCycle1Intake extends OpMode {
     private masterStateEnum masterState;
     private masterStateEnum MotifPose;
 
+
 // Establish paths: these lines create the interpolations from coordinate-to-coordinate,
 // also interpolating heading at the same time.
-Path firstCycle() {
-    return line(startPose, launchPose).linear(startPose, launchPose);
-}
-Path approachIntake() {
-    return line(launchPose, HPIntakeApproach).linear(launchPose, HPIntakeApproach);
-}
-    Path intakeFromHP() {
-    return line(HPIntakeApproach, HPintake).linear(HPIntakeApproach, HPintake);
+
+    Path CycleThenIntake() {
+        return line(startPose, HPintake).linear(startPose, HPintake);
     }
+
+   // Path approachIntake() {
+    //    return line(launchPose, HPIntakeApproach).linear(launchPose, HPIntakeApproach);
+    //}
+
+    //Path intakeFromHP() {
+    //    return line(HPIntakeApproach, HPintake).linear(HPIntakeApproach, HPintake);
+    //}
+
     Path parkInSpot() {
-    return line(HPintake, Park).linear(HPintake, Park);
+        return curve(HPintake, ParkControlPoint, Park).linear(HPintake, Park);
     }
+
 
     private Command autoRoutine() {
 
         return sequential(
 
-                follow(follower, firstCycle()),
+                follow(follower, CycleThenIntake()),
 
-                follow(follower, approachIntake()),
+                //follow(follower, approachIntake()),
 
-                follow(follower, intakeFromHP()),
+                //follow(follower, intakeFromHP()),
 
                 follow(follower, parkInSpot())
         );
@@ -102,61 +110,82 @@ Path approachIntake() {
 
 
     private void loadPreset(Alliance alliance, AutoStartLocation location) {
+
         if (alliance == Alliance.BLUE && location == AutoStartLocation.GOAL) {
 
-        }
-        if (alliance == Alliance.RED && location == AutoStartLocation.GOAL) {
-             final Pose startPose = poseFactory.of(56, 8, 90);
-             final Pose launchPose = poseFactory.of(56.318, 29.9584, 90);
-             final Pose HPIntakeApproach = poseFactory.of(6.6719, 13.6764, 18.1575);
-             final Pose HPintake = poseFactory.of(6.4966, 3.1921, 89.0422);
-             final Pose Park = poseFactory.of(4.9708, 107.9449, -89.1655);
+            // add coordinates here
 
+        }
+
+        if (alliance == Alliance.RED && location == AutoStartLocation.GOAL) {
+
+            startPose = poseFactory.of(56, 8, 180);
+            //launchPose = poseFactory.of(56.318, 29.9584, 90);
+            //HPIntakeApproach = poseFactory.of(16, 25, -90);
+            HPintake = poseFactory.of(8, 8, 180);
+            Park = poseFactory.of(9, 90, -89.1655);
+            ParkControlPoint = poseFactory.of(30, 40, -89.1655);
 
         }
 
         if (alliance == Alliance.RED && location == AutoStartLocation.POINT) {
-           //add coordinates here
+
+            //add coordinates here
+
         }
 
 
         if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
-           //add coordinates here
+
+            //add coordinates here
+
         }
     }
+
+
     @Override
     public void init() {
 
-            Scheduler.reset();
+        Scheduler.reset();
 
-            follower = Constants.create(hardwareMap);
+        follower = Constants.create(hardwareMap);
 
 
         // Log completed initialization to Panels and driver station (custom log function)
         log("Status", "Initialized");
         telemetry.update(); // Update driver station after logging
 
-        }
+    }
 
 
     private void buildPaths() {
+
         // build paths
 
     }
 
+
     @Override
     public void start() {
+
+        // This makes sure Pedro starts from the selected preset start pose
+        follower.setPose(startPose);
+
         schedule(autoRoutine());
     }
 
+
     @Override
     public void loop() {
+
         follower.update();
         Scheduler.execute();
+
         // add your other methods needed in the loop here
         //telemetryData.addData("X", follower.pose().x());
         //telemetryData.addData("Y", follower.pose().y());
         //telemetryData.addData("Heading", Math.toDegrees(follower.pose().heading()));
+
         telemetry.addData("Follower Mode", follower.mode());
         telemetry.update();
     }
@@ -167,6 +196,7 @@ Path approachIntake() {
 
     @Override
     public void init_loop() {
+
         super.init_loop();
 
         // Clear the previous menu display
@@ -176,6 +206,7 @@ Path approachIntake() {
         // =========================
         // SELECT ALLIANCE
         // =========================
+
         if (alliance == Alliance.UNKNOWN) {
 
             telemetry.addLine("Select Alliance");
@@ -184,12 +215,17 @@ Path approachIntake() {
             telemetry.addLine("Dpad Down: Red");
 
             if (gamepad1.dpad_up) {
+
                 alliance = Alliance.BLUE;
                 allianceSelected = "BLUE";
+                telemetry.addLine(allianceSelected);
 
             } else if (gamepad1.dpad_down) {
+
                 alliance = Alliance.RED;
                 allianceSelected = "RED";
+                telemetry.addLine(allianceSelected);
+
             }
         }
 
@@ -197,6 +233,7 @@ Path approachIntake() {
         // =========================
         // SELECT START LOCATION
         // =========================
+
         else if (location == AutoStartLocation.UNKNOWN) {
 
             telemetry.addLine("Alliance Selected: " + allianceSelected);
@@ -206,31 +243,41 @@ Path approachIntake() {
             telemetry.addLine("Dpad Right: Point");
             telemetry.addLine("");
             telemetry.addLine("Circle: Start Over");
-
+            telemetry.addLine(String.valueOf(gamepad1));
 
             if (gamepad1.dpad_left) {
 
                 location = AutoStartLocation.GOAL;
                 locationSelected = "GOAL";
+                telemetry.addLine(locationSelected);
 
             } else if (gamepad1.dpad_right) {
 
                 location = AutoStartLocation.POINT;
                 locationSelected = "POINT";
+                telemetry.addLine(locationSelected);
 
             } else if (gamepad1.circle) {
 
                 alliance = Alliance.UNKNOWN;
                 location = AutoStartLocation.UNKNOWN;
+
+                allianceSelected = "";
+                locationSelected = "";
+
             }
 
 
             // Selection is complete.
             // Tell the next init_loop() cycle to build everything.
+
             if (alliance != Alliance.UNKNOWN &&
                     location != AutoStartLocation.UNKNOWN) {
 
+                telemetry.addLine("runbuild about to run");
+
                 runBuild = true;
+
             }
         }
 
@@ -238,6 +285,7 @@ Path approachIntake() {
         // =========================
         // SELECTION COMPLETE
         // =========================
+
         else {
 
             telemetry.addLine("Alliance Selected: " + allianceSelected);
@@ -251,13 +299,16 @@ Path approachIntake() {
 
                 loadPreset(alliance, location);
 
+                telemetry.addLine("ran loadPreset");
+
                 follower = Constants.create(hardwareMap);
 
                 buildPaths();
 
-               // follower.setStartingPose(startPose);
+                follower.setPose(startPose);
 
                 runBuild = false;
+
             }
 
 
@@ -267,8 +318,12 @@ Path approachIntake() {
                 alliance = Alliance.UNKNOWN;
                 location = AutoStartLocation.UNKNOWN;
 
+                allianceSelected = "";
+                locationSelected = "";
+
                 // Make sure the next completed selection rebuilds everything
                 runBuild = true;
+
             }
 
 
@@ -304,6 +359,36 @@ Path approachIntake() {
                                     follower.pose().heading()
                             )
                     );
+
+
+                    // DEBUG: show the actual selected preset coordinates
+                    telemetry.addLine("");
+                    telemetry.addLine("Preset Check:");
+
+                    telemetry.addData(
+                            "Start Pose X",
+                            "%.2f",
+                            startPose.x()
+                    );
+
+                    telemetry.addData(
+                            "Start Pose Y",
+                            "%.2f",
+                            startPose.y()
+                    );
+
+                    telemetry.addData(
+                            "Launch Pose X",
+                            "%.2f",
+                            launchPose.x()
+                    );
+
+                    telemetry.addData(
+                            "Launch Pose Y",
+                            "%.2f",
+                            launchPose.y()
+                    );
+
                 }
             }
         }
@@ -315,29 +400,42 @@ Path approachIntake() {
 
 
 
-    // State machine handling the yeeting of elements in autonomous
-// Assumes yeet position is always the same throughout autonomous
 
-        //public void setPathState(int pState) {
-        //pathState = pState;
+
+    // State machine handling the yeeting of elements in autonomous
+    // Assumes yeet position is always the same throughout autonomous
+
+    //public void setPathState(int pState) {
+    //pathState = pState;
     //}
 
 
     // Custom logging function to support telemetry and Panels
     private void log(String caption, Object... text) {
+
         if (text.length == 1) {
+
             telemetry.addData(caption, text[0]);
             //panelsTelemetry.debug(caption + ": " + text[0]);
+
         } else if (text.length >= 2) {
+
             StringBuilder message = new StringBuilder();
+
             for (int i = 0; i < text.length; i++) {
+
                 message.append(text[i]);
+
                 if (i < text.length - 1) {
+
                     message.append(" ");
+
                 }
             }
+
             telemetry.addData(caption, message.toString());
             //panelsTelemetry.debug(caption + ": " + message);
+
         }
     }
 }
