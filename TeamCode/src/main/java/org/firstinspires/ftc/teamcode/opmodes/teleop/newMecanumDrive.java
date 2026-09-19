@@ -48,8 +48,8 @@ public class newMecanumDrive {
 
 
         RevHubOrientationOnRobot RevOrientation = new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP);
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT);
 
 
         imu.initialize(new IMU.Parameters(RevOrientation));
@@ -67,7 +67,6 @@ public class newMecanumDrive {
 
         double maxPower = 1.0;
         double maxSpeed = 0.5;
-        double limitSpeed = 0.5;
 
 
         maxPower = Math.max(maxPower, Math.abs(frontLeftPower));
@@ -77,8 +76,8 @@ public class newMecanumDrive {
 
 
         frontLeftMotor.setPower(maxSpeed*(frontLeftPower/maxPower));
-        backLeftMotor.setPower(limitSpeed*(backLeftPower/maxPower));
-        frontRightMotor.setPower(limitSpeed*(frontRightPower/maxPower));
+        backLeftMotor.setPower(maxSpeed*(backLeftPower/maxPower));
+        frontRightMotor.setPower(maxSpeed*(frontRightPower/maxPower));
         backRightMotor.setPower(maxSpeed*(backRightPower/maxPower));
 
 

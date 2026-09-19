@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor; // Added for the continuous motor
 
 @TeleOp
-public class MecanumDriveOpMode extends OpMode {
+public class DriveIntake extends OpMode {
     newMecanumDrive drive = new newMecanumDrive();
 
     // Motor configuration
