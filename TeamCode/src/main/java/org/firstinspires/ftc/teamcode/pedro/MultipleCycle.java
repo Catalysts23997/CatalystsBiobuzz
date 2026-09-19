@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 //@Configurable
-@Autonomous(name = "OneCycle1Intake")
+@Autonomous(name = "MultipleCycle")
 public class MultipleCycle extends OpMode {
     // Initialize poses
     public Constants constants = new Constants();
