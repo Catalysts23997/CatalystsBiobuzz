@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.common;
 
-public enum MotorEnums {
+public enum MotorEnum {
     FRONT_LEFT_MOTOR("front_left_motor"),
     FRONT_RIGHT_MOTOR("front_right_motor"),
     BACK_LEFT_MOTOR("back_left_motor"),
@@ -8,7 +8,7 @@ public enum MotorEnums {
 
     private final String motorType;
 
-    MotorEnums(String motorType) {
+    MotorEnum(String motorType) {
         this.motorType = motorType;
     }
 
