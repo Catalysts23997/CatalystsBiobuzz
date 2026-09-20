@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common;
+package org.firstinspires.ftc.teamcode.enums;
 
 public enum ButtonEnum {
     L1("left_bumper"),

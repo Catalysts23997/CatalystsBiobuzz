@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common;
+package org.firstinspires.ftc.teamcode.enums;
 
 public enum MotorEnum {
     FRONT_LEFT_MOTOR("front_left_motor"),

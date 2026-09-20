@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.util;
 
-import org.firstinspires.ftc.teamcode.common.MotorEnum;
+import org.firstinspires.ftc.teamcode.enums.MotorEnum;
 
 import java.util.HashMap;
 import java.util.Map;
