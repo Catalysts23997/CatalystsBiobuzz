@@ -11,11 +11,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoGlobals;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.AprilTag;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.ColorSensors;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Intake;
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Kickstand;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Lights;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Pulley;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo;
@@ -35,7 +33,6 @@ public class InterleagueActions {
 
     public Intake intake;
     Pulley pulley;
-    public Kickstand kickstand;
 
     public SingleLauncher launcher;
 
@@ -49,7 +46,6 @@ public class InterleagueActions {
 
     public void update() {
         aprilTag.update();
-        kickstand.update();
 
         intake.update();
         pulley.update();
@@ -98,7 +94,6 @@ public class InterleagueActions {
 
     public InterleagueActions(HardwareMap hardwareMap, Telemetry telemetry) {
         aprilTag = new AprilTag(hardwareMap);
-        kickstand = new Kickstand(hardwareMap);
 
 
         ball1 = new ColorSensors(hardwareMap, "ball1");
@@ -116,27 +111,6 @@ public class InterleagueActions {
         timer = new ElapsedTime();
 
         this.telemetry = telemetry;
-    }
-    public Action Kickstand() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                kickstand.setMode(Kickstand.Mode.ON);
-                intake.state = State.STOPPED;
-                launcher.stop();
-                return false;
-            }
-        };
-    }
-    public Action Reset() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                kickstand.setMode(Kickstand.Mode.OFF);
-                launcher.start();
-                return false;
-            }
-        };
     }
 
     public Action WaitAction(double waitMs) {

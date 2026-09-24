@@ -3,11 +3,8 @@ package org.firstinspires.ftc.teamcode.Competition_Code.Tele.Extra
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Launcher
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.SingleLauncher
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.PIDParams
 

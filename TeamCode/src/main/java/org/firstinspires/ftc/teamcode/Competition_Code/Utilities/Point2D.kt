@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Competition_Code.Utilities
 
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Extra.AttachmentPositions
 import kotlin.math.cos
 import kotlin.math.sin
 

@@ -5,7 +5,6 @@ import com.acmerobotics.roadrunner.Action
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
-import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Competition_Code.Actions.InterleagueActions
 import org.firstinspires.ftc.teamcode.Competition_Code.AllianceColor
@@ -15,21 +14,15 @@ import org.firstinspires.ftc.teamcode.Competition_Code.PinpointLocalizer.Localiz
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.DrivetrainOverride
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Intake
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Kickstand
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.LauncherPoint
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Tele.TeleGlobals
-import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Angles
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.goalAngle
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.goalAngleAdjusted
-import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.launcherSpeed
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.launcherSpeedAdjusted
-import java.lang.Math.sqrt
 import kotlin.math.PI
 import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 /**
  * This class is **NOT** an OpMode, it is used to store common code that
