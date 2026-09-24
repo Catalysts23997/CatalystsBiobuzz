@@ -52,3 +52,5 @@ Collaboration is the core of BioBuzz. We work as a unified unit to ensure the su
 
 ---
 *Note: Additional sections regarding Safety and Competition Conduct will be added here.*
+
+TBD: Add more details and sections this document.
