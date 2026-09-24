@@ -129,6 +129,19 @@ public class AutoMovementShared {
 
         sleep(sleep);
     }
+
+    public void forward(double inches) {
+        final double SLEEP_PER_INCH = 55;
+        final double sleepLong = 1000 + inches * SLEEP_PER_INCH;
+
+        moveRobot(inches,0, 0, 0.5,(int)sleepLong);
+    }
+    public void turnLeft(){
+        moveRobot(0,0,-84,0.2,5000);
+    }
+    public void turnRight(){
+        moveRobot(0,0,84,0.2,5000);
+    }
     public void launchNBalls(int N){
         //Robot will launch balls x3
         robot.launchBall(robot.FIRST_LAUNCH_DURATION);
