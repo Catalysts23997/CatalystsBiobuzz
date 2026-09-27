@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Competition_Code.Auto
 
+import org.firstinspires.ftc.teamcode.Competition_Code.Auto.Spline.PathFollower
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
 object AutoGlobals {
@@ -9,4 +10,5 @@ object AutoGlobals {
     var locationOfRobot: Poses? = null
     var driveSpeed = 1.0
     var targetRobotPositon: Poses = Poses(0.0,0.0,0.0)
+    var targetRobotPath: PathFollower = PathFollower(ArrayList<Poses>())
 }
