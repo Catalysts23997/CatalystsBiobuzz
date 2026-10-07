@@ -19,36 +19,8 @@ import kotlin.math.max
 import kotlin.math.sign
 import kotlin.math.sin
 
-class RunToExact(private val pose: Poses) : Action {
-    override fun run(p: TelemetryPacket): Boolean {
-        val current = Localizer.pose
-        val drive = Drivetrain.instance
 
-        val latError = pose.y - current.y
-        val axialError = pose.x - current.x
-        val headingError = Angles.wrap(pose.heading + current.heading)
-
-        val lateral = drive.Ypid.calculate(latError)
-        val axial = drive.Xpid.calculate(axialError)
-        val turn = drive.Rpid.calculate(headingError)
-
-//        Log.d("Y", doubleArrayOf(axial,lateral,turn, targetVector.y, current.y).contentToString())
-
-        val h = -Localizer.pose.heading
-        val rotX = -axial * cos(h) - lateral * sin(h)
-        val rotY = -axial * sin(h) + lateral * cos(h)
-
-        drive.leftFront.power = (rotY - rotX - turn)
-        drive.leftBack.power = (rotY + rotX - turn)
-        drive.rightFront.power = (rotY + rotX + turn)
-        drive.rightBack.power = (rotY - rotX + turn)
-
-        return !(arrayListOf(axialError, latError).all { abs(it) <= 1.0 } &&
-                abs(headingError) <= Math.toRadians(5.0))
-    }
-}
-
-class FollowPath(private var pathFollower: PathFollower) : Action {
+class FollowPath: Action {
     val time: ElapsedTime = ElapsedTime()
     var lastTime = -1.0
 
@@ -76,12 +48,17 @@ class FollowPath(private var pathFollower: PathFollower) : Action {
 
         if (dt <= 0.0) return true
 
-        val path = pathFollower.update(Vector2D(current.x, current.y), current.heading)
+        val path = targetRobotPath.update(Vector2D(current.x, current.y), current.heading)
 
         val vX = -path.x * cos(current.heading) - path.y * sin(current.heading)
         val vY = -path.x * sin(current.heading) + path.y * cos(current.heading)
 
-        val headingError = Angles.wrap(path.heading - current.heading)
+        var targetHeading = path.heading
+        if (AutoGlobals.drivingBackwards) {
+            targetHeading = Angles.wrap(targetHeading + Math.PI) // Facing flipped 180 degrees
+        }
+
+        val headingError = Angles.wrap(path.heading - targetHeading)
 
         val turn = drive.Rpid.calculate(headingError)
 
@@ -128,35 +105,7 @@ class FollowPath(private var pathFollower: PathFollower) : Action {
     }
 }
 
-class RunToNearest(private val targetVector: Vector2d) : Action {
-    override fun run(p: TelemetryPacket): Boolean {
-        val current = Localizer.pose
-        val drive = Drivetrain.instance
 
-        val newTarget = findNearestPoint(targetVector, current)
-
-        val latError = newTarget.y - current.y
-        val axialError = newTarget.x - current.x
-        val headingError = Angles.wrap(newTarget.heading - current.heading)
-
-        val lateral = drive.Ypid.calculate(latError)
-        val axial = drive.Xpid.calculate(axialError)
-        val turn = drive.Rpid.calculate(headingError)
-
-        val h = -Localizer.pose.heading
-        val rotX = -axial * cos(h) - lateral * sin(h)
-        val rotY = -axial * sin(h) + lateral * cos(h)
-
-        drive.leftFront.power = (rotY - rotX - turn)
-        drive.leftBack.power = (rotY + rotX - turn)
-        drive.rightFront.power = (rotY + rotX + turn)
-        drive.rightBack.power = (rotY - rotX + turn)
-
-        return !(abs(latError) <= 3.0 &&
-                abs(axialError) <= 3.0 &&
-                abs(Angles.wrap(headingError)) <= Math.toRadians(4.0))
-    }
-}
 
 fun RunToExactForever(pose: Poses): Boolean {
 
@@ -209,7 +158,7 @@ class SetDriveTarget @JvmOverloads constructor( val pose: Poses, val driveSpeed:
     }
 }
 
-class SetPathTarget @JvmOverloads constructor( val poses: ArrayList<Poses>, val driveSpeed: Double = 1.0, val maxTime: Double = 8.0, val toleranceDistance: Double = 3.0, val toleranceDegrees: Double = 5.0): Action{
+class SetPathTarget @JvmOverloads constructor(val poses: ArrayList<Poses>, val isBackwards: Boolean = false, val driveSpeed: Double = 1.0, val maxTime: Double = 8.0, val toleranceDistance: Double = 3.0, val toleranceDegrees: Double = 5.0): Action{
     val timer = ElapsedTime()
     private var started = false
 
@@ -217,7 +166,8 @@ class SetPathTarget @JvmOverloads constructor( val poses: ArrayList<Poses>, val 
 
         if (!started) {
             AutoGlobals.driveSpeed = driveSpeed
-            targetRobotPath = PathFollower(poses)
+            AutoGlobals.drivingBackwards = isBackwards
+            targetRobotPath = PathFollower(poses, isBackwards)
 
             timer.reset()
             started = true

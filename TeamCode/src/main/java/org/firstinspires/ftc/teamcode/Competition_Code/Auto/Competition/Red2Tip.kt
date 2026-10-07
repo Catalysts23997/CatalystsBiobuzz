@@ -11,24 +11,22 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.Competition_Code.Actions.Actions
 import org.firstinspires.ftc.teamcode.Competition_Code.AllianceColor
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoGlobals
-import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoSplines
-import org.firstinspires.ftc.teamcode.Competition_Code.Auto.FollowPath
-import org.firstinspires.ftc.teamcode.Competition_Code.Auto.Spline.PathFollower
+import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoPoints
+import org.firstinspires.ftc.teamcode.Competition_Code.Auto.RunToExactForever
 import org.firstinspires.ftc.teamcode.Competition_Code.PinpointLocalizer.Localizer
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "AutoSpline", group = "Auto")
-class AutoSpline : LinearOpMode() {
-
+@Autonomous(name = "Red2Tip", group = "Auto")
+class Red2Tip: LinearOpMode() {
     override fun runOpMode() {
-        AutoGlobals.targetRobotPath = PathFollower(AutoSplines.Path1.poses)
+        AutoGlobals.targetRobotPositon = AutoPoints.StartRed.pose
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
 
-        val localizer = Localizer(hardwareMap, AutoSplines.Path1.poses[0])
+        val localizer = Localizer(hardwareMap, AutoGlobals.targetRobotPositon)
         val drive = Drivetrain(hardwareMap, AllianceColor.Blue)
         val robot = Actions(hardwareMap, telemetry)
 
@@ -39,7 +37,6 @@ class AutoSpline : LinearOpMode() {
         waitForStart()
 
         AutoGlobals.AutonomousRan = true
-
 
         runBlocking(
             ParallelAction(
@@ -52,7 +49,7 @@ class AutoSpline : LinearOpMode() {
 
 
                         localizer.update()
-                        FollowPath(AutoGlobals.targetRobotPath)
+                        RunToExactForever(AutoGlobals.targetRobotPositon)
                         AutoGlobals.locationOfRobot = Poses(
                             Localizer.Companion.pose.x,
                             Localizer.Companion.pose.y,
@@ -79,11 +76,18 @@ class AutoSpline : LinearOpMode() {
                     }
                 },
                 SequentialAction(
-                    robot.StartShooter,
-                    AutoSplines.Path1.followPath(),
-                    robot.Shoot(),
-
-
+                    AutoPoints.Launch1Red.runToExact(),
+                    robot.WaitAction(500.0),
+                    AutoPoints.Intake1Red.runToExact(),
+                    robot.WaitAction(500.0),
+                    AutoPoints.TransitionRed.runToFast(),
+                    AutoPoints.Launch2Red.runToExact(),
+                    robot.WaitAction(500.0),
+                    AutoPoints.Intake1Red.runToExact(),
+                    robot.WaitAction(500.0),
+                    AutoPoints.Launch2Red.runToExact(),
+                    robot.WaitAction(500.0),
+                    AutoPoints.EndRed.runToExact(),
                 )
             )
         )

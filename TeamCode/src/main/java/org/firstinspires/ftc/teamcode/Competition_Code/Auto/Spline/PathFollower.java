@@ -12,11 +12,23 @@ public class PathFollower {
     private final GVFController gvf = new GVFController(0.15, 45.0); // ke = 0.15, maxSpeed = 45 in/s
     private final Vector2D finalWaypoint;
 
-    public PathFollower(ArrayList<Poses> waypoints) {
-        PathGeneration generator = new PathGeneration();
-        this.pathManager = new PathManager(generator.createPath(waypoints));
+    public PathFollower(ArrayList<Poses> waypoints, boolean backwards) {
+        ArrayList<Poses> adjustedWaypoints = new ArrayList<>();
 
-        Poses lastPose = waypoints.get(waypoints.size() - 1);
+        for (int i = 0; i < waypoints.size(); i++) {
+            Poses current = waypoints.get(i);
+            if (backwards) {
+                // FLIP 1: Force spline tangents to project out the back
+                double flippedHeading = current.getHeading() + Math.PI;
+                adjustedWaypoints.add(new Poses(current.getX(), current.getY(), flippedHeading));
+            } else {
+                adjustedWaypoints.add(current); // Use as-is
+            }
+        }
+        PathGeneration generator = new PathGeneration();
+        this.pathManager = new PathManager(generator.createPath(adjustedWaypoints));
+
+        Poses lastPose = adjustedWaypoints.get(adjustedWaypoints.size() - 1);
         this.finalWaypoint = new Vector2D(lastPose.getX(), lastPose.getY());
     }
 
@@ -42,7 +54,7 @@ public class PathFollower {
         if (!isFinalSegment) return vMax;
 
         double distanceToTarget = finalWaypoint.subtract(robotPos).magnitude();
-        double decelDistance = 12.0; // Start slowing down 12 inches away
+        double decelDistance = 10.0; // Start slowing down 12 inches away
 
         if (distanceToTarget < decelDistance) {
             // Ramp speed down proportionally, maintaining a small min speed to prevent stalling

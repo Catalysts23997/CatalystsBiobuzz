@@ -17,8 +17,6 @@ public class PathGeneration {
         ArrayList <Vector2D> tangents = new ArrayList<>();
         ArrayList <CubicSpline> splines = new ArrayList<>();
 
-        Poses[] poses1 = {};
-
         int size = poses.size();
         if (size < 2) return splines;
 
@@ -33,7 +31,6 @@ public class PathGeneration {
             points.add(new Vector2D(current.getX(), current.getY()));
             tangents.add(new Vector2D(k * sin(heading), k * cos(heading)));
         }
-        size =  points.size();
 
         Poses last = poses.get(size - 1);
         Poses prev = poses.get(size - 2);
@@ -41,7 +38,9 @@ public class PathGeneration {
         double lastHeadingRad = last.getHeading();
 
         points.add(new Vector2D(last.getX(), last.getY()));
-        tangents.add(new Vector2D(kLast * cos(lastHeadingRad), kLast * sin(lastHeadingRad)));
+        tangents.add(new Vector2D(kLast * sin(lastHeadingRad), kLast * cos(lastHeadingRad)));
+
+        size =  points.size();
 
         for (int i = 0; i < size - 1; i++) {
               CubicSpline spline = new CubicSpline(points.get(i), points.get(i+1), tangents.get(i), tangents.get(i+1));
