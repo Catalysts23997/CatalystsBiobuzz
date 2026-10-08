@@ -44,8 +44,8 @@ public class SingleLauncher {
     /// Declare a new instance of the launcher system.
     ///
     /// # Only one instance should be active at a given time!
-    public SingleLauncher(HardwareMap hardwareMap) {
-        launcher = hardwareMap.get(DcMotorEx.class, "launcher");
+    public SingleLauncher(HardwareMap hardwareMap, String name) {
+        launcher = hardwareMap.get(DcMotorEx.class, name);
         launcher.setDirection(DcMotorSimple.Direction.FORWARD);
 
         timer.reset();
