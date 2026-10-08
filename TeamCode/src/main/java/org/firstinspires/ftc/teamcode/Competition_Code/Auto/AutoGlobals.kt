@@ -10,5 +10,6 @@ object AutoGlobals {
     var locationOfRobot: Poses? = null
     var driveSpeed = 1.0
     var targetRobotPositon: Poses = Poses(0.0,0.0,0.0)
-    var targetRobotPath: PathFollower = PathFollower(ArrayList<Poses>())
+    var targetRobotPath: PathFollower = PathFollower(ArrayList<Poses>(), false)
+    var drivingBackwards: Boolean = false
 }

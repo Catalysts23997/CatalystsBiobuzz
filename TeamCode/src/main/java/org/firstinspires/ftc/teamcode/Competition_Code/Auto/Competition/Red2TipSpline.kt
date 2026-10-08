@@ -19,11 +19,11 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "AutoSpline", group = "Auto")
-class AutoSpline : LinearOpMode() {
+@Autonomous(name = "Red2TipSpline", group = "Auto")
+class Red2TipSpline : LinearOpMode() {
 
     override fun runOpMode() {
-        AutoGlobals.targetRobotPath = PathFollower(AutoSplines.Path1.poses)
+        AutoGlobals.targetRobotPath = PathFollower(AutoSplines.Path1.poses, AutoSplines.Path1.backwards)
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
@@ -43,20 +43,20 @@ class AutoSpline : LinearOpMode() {
 
         runBlocking(
             ParallelAction(
+                ParallelAction(
+                    FollowPath(),
                 object : Action {
                     override fun run(p: TelemetryPacket): Boolean {
                         if (isStopRequested) {
                             stop()
                         }
 
-
-
                         localizer.update()
-                        FollowPath(AutoGlobals.targetRobotPath)
+
                         AutoGlobals.locationOfRobot = Poses(
-                            Localizer.Companion.pose.x,
-                            Localizer.Companion.pose.y,
-                            Localizer.Companion.pose.heading
+                            Localizer.pose.x,
+                            Localizer.pose.y,
+                            Localizer.pose.heading
                         )
 
 
@@ -77,14 +77,22 @@ class AutoSpline : LinearOpMode() {
 
                         return true // keep looping
                     }
-                },
+                }
+                ),
                 SequentialAction(
-                    robot.StartShooter,
-                    AutoSplines.Path1.followPath(),
-                    robot.Shoot(),
+                    AutoSplines.Launch1.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.Intake1.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.Launch2.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.Intake2.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.Launch3.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.End.followPath(),
 
-
-                )
+                    )
             )
         )
 

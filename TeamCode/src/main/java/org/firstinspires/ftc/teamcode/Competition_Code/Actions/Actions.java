@@ -11,8 +11,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.AprilTag;
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.ColorSensors;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Lights;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Pulley;
@@ -20,14 +18,8 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Intake.State;
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.SingleLauncher;
 
-public class InterleagueActions {
-    AprilTag aprilTag;
+public class Actions {
 
-
-    public int motif;
-
-    public ColorSensors ball1;
-    public ColorSensors ball2;
 
     public Servo holder;
 
@@ -36,7 +28,7 @@ public class InterleagueActions {
 
     public SingleLauncher launcher;
 
-    public Lights blinkin;
+    public Lights lights;
 
     boolean green = false;
     boolean red = false;
@@ -45,7 +37,6 @@ public class InterleagueActions {
     ElapsedTime timer;
 
     public void update() {
-        aprilTag.update();
 
         intake.update();
         pulley.update();
@@ -54,33 +45,25 @@ public class InterleagueActions {
 
         //color control
         if(green){
-            blinkin.color = Lights.Color.green;
+            lights.color = Lights.Color.green;
         } else if (red) {
-            blinkin.color = Lights.Color.red;
+            lights.color = Lights.Color.red;
         } else if(timer.milliseconds() >=500) {
-            blinkin.color = Lights.Color.yellow;
+            lights.color = Lights.Color.yellow;
         }
         else {
-            blinkin.color = Lights.Color.blue;
+            lights.color = Lights.Color.blue;
         }
         if(timer.milliseconds() >=1000) {
             timer.reset();
         }
-        blinkin.update();
+        lights.update();
 
 
         //telemetry
         launcher.update();
-        telemetry.addData("Light", blinkin.color.toString());
-        telemetry.addData("Light", blinkin.color.value);
-
-
-        telemetry.addData("Ball1 Is Green?", ball1.isGreen());
-        telemetry.addData("Ball1 Is Purple?", ball1.isPurple());
-        telemetry.addData("Ball1 Hue?", ball1.getHue());
-        telemetry.addData("Ball2 Is Green?", ball2.isGreen());
-        telemetry.addData("Ball2 Is Purple?", ball2.isPurple());
-        telemetry.addData("Ball2 Hue?", ball2.getHue());
+        telemetry.addData("Light", lights.color.toString());
+        telemetry.addData("Light", lights.color.value);
 
         telemetry.addData("Intake State", intake.state);
         telemetry.addData("Pulley State", pulley.state);
@@ -92,13 +75,7 @@ public class InterleagueActions {
 
     }
 
-    public InterleagueActions(HardwareMap hardwareMap, Telemetry telemetry) {
-        aprilTag = new AprilTag(hardwareMap);
-
-
-        ball1 = new ColorSensors(hardwareMap, "ball1");
-        ball2 = new ColorSensors(hardwareMap, "ball2");
-
+    public Actions(HardwareMap hardwareMap, Telemetry telemetry) {
         intake = new Intake(hardwareMap);
         pulley = new Pulley(hardwareMap);
 
@@ -106,7 +83,7 @@ public class InterleagueActions {
 
         launcher = new SingleLauncher(hardwareMap);
 
-        blinkin = new Lights(hardwareMap);
+        lights = new Lights(hardwareMap);
 
         timer = new ElapsedTime();
 
@@ -135,44 +112,6 @@ public class InterleagueActions {
         };
     }
 
-    //camera actions
-    double cameraTimeout = 1000;
-
-    public Action CheckMotif() {
-        return new Action() {
-
-            final ElapsedTime timer = new ElapsedTime();
-            boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                aprilTag.setState(AprilTag.State.On);
-
-                if (!initialized) {
-                    timer.reset();
-                    initialized = true;
-                }
-
-                // Check the current motif
-                motif = aprilTag.getMotif();
-
-                // If we don't see anything, stop searching
-                return motif == 0 && timer.milliseconds() <= cameraTimeout;
-            }
-        };
-    }
-
-    public Action OffCamera() {
-        return new Action() {
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                aprilTag.setState(AprilTag.State.Off);
-
-                return false;
-            }
-        };
-    }
 
     //intake
     public Action StartIntake = new Action() {
@@ -267,34 +206,6 @@ public class InterleagueActions {
         }
     };
 
-    public Action ShootContinous() {
-        return new Action() {
-            final ElapsedTime timer = new ElapsedTime();
-            boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                // Phase 1: Wait for ball2 (the start signal)
-                if (!initialized) {
-                    timer.reset();
-                    initialized = true;
-
-                    pulley.state = Pulley.State.Slow;
-                    intake.state = State.INTAKING;
-                }
-
-                if(timer.milliseconds()>=pulleyShootTime){
-                    pulley.state = Pulley.State.Off;
-                    intake.state = State.STOPPED;
-                    holder.state = Servo.State.STOP1;
-
-                    return false;
-                }
-                return true;
-            }
-        };
-    }
 
     public Action CycleShootClose() {
         return new Action() {
@@ -324,47 +235,6 @@ public class InterleagueActions {
                 }
 
                 if(timer.milliseconds()>=pulleyShootTime+200){
-                    pulley.state = Pulley.State.Off;
-                    intake.state = State.STOPPED;
-                    holder.state = Servo.State.STOP1;
-                    red = false;
-                    green = false;
-                    return false;
-                }
-                return true;
-            }
-        };
-    }
-
-    public Action CycleShootFar() {
-        return new Action() {
-            final ElapsedTime timer = new ElapsedTime();
-            boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                // Phase 1: Wait for ball2 (the start signal)
-                if (!initialized) {
-                    timer.reset();
-                    initialized = true;
-                }
-
-                if(launcher.atTargetRPM(launcher.getGoalRPM(), toleranceRPM)){
-                    pulley.state = Pulley.State.Slow;
-                    intake.state = State.INTAKING;
-                    green = true;
-                    red = false;
-                }
-                else {
-                    pulley.state = Pulley.State.Off;
-                    intake.state = State.STOPPED;
-                    red = true;
-                    green = false;
-
-                }
-
-                if(timer.milliseconds()>=pulleyShootTime+800){
                     pulley.state = Pulley.State.Off;
                     intake.state = State.STOPPED;
                     holder.state = Servo.State.STOP1;
@@ -431,37 +301,6 @@ public class InterleagueActions {
             }
         };
     }
-    public Action ShootOne() {
-        return new Action() {
-            final ElapsedTime timer = new ElapsedTime();
-            boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                // Phase 1: Wait for ball2 (the start signal)
-                if (!initialized) {
-                    timer.reset();
-                    initialized = true;
-                    pulley.state = Pulley.State.On;
-                    intake.state = State.INTAKING;
-                    green = true;
-                    red = false;
-                }
-
-                if(timer.milliseconds()>=500){
-                    pulley.state = Pulley.State.Off;
-                    intake.state = State.STOPPED;
-                    holder.state = Servo.State.STOP1;
-                    red = false;
-                    green = false;
-
-                    return false;
-                }
-                return true;
-            }
-        };
-    }
 
     double toleranceRPM = 150;
 
@@ -490,7 +329,7 @@ public class InterleagueActions {
         };
     }
 
-    public SequentialAction EjectOne() {
+    public SequentialAction Eject() {
         return new SequentialAction(
             ReverseIntake,
             WaitAction(10),
@@ -498,13 +337,6 @@ public class InterleagueActions {
         );
     }
 
-    public SequentialAction EjectTwo() {
-        return new SequentialAction(
-                ReverseIntake,
-                WaitAction(200),
-                StopIntake
-        );
-    }
 
     public SequentialAction Shoot() {
         return new SequentialAction(
@@ -517,27 +349,6 @@ public class InterleagueActions {
         );
     }
 
-    public SequentialAction ShootFar() {
-        return new SequentialAction(
-                StartShooter,
-                StopIntake,
-                ReleaseBall,
-                WaitAction(servoReleaseTime),
-                WaitForLauncher(),
-                CycleShootFar()
-        );
-    }
-
-    public SequentialAction ShootTele() {
-        return new SequentialAction(
-                StartShooter,
-                StopIntake,
-                ReleaseBall,
-                WaitAction(servoReleaseTime),
-                WaitForLauncher(),
-                CycleShootFar()
-        );
-    }
 
     public SequentialAction ShootSlow() {
         return new SequentialAction(
@@ -547,18 +358,6 @@ public class InterleagueActions {
                 WaitAction(servoReleaseTime),
                 WaitForLauncher(),
                 ControlledShot()
-        );
-    }
-
-
-    public SequentialAction ShootFast() {
-        return new SequentialAction(
-                StartShooter,
-                StopIntake,
-                ReleaseBall,
-                WaitAction(servoReleaseTime),
-                WaitForLauncher(),
-                ShootOne()
         );
     }
 

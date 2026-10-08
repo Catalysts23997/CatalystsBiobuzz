@@ -11,7 +11,7 @@
  *
  *      apply from: '../build.common.gradle'
  *
- * which will pick up this file here. This approach allows makes it easier to integrate
+ * which will pick up this file here    . This approach allows makes it easier to integrate
  * updates to the FTC SDK into your code.
  */
 
@@ -19,7 +19,7 @@ import java.util.regex.Pattern
 
 android {
 
-    compileSdkVersion 30
+    compileSdkVersion 37
 
     signingConfigs {
         release {

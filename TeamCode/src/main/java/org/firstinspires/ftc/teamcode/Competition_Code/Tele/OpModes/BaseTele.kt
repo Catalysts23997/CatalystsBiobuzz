@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.Competition_Code.Actions.InterleagueActions
+import org.firstinspires.ftc.teamcode.Competition_Code.Actions.Actions
 import org.firstinspires.ftc.teamcode.Competition_Code.AllianceColor
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoGlobals
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoPoints
@@ -46,7 +46,7 @@ class BaseTele(opmode: LinearOpMode, color: AllianceColor) {
     var runningActions: ArrayList<Action>
     var shootingActions: ArrayList<Action>
 
-    var robot: InterleagueActions
+    var robot: Actions
     var drive: Drivetrain
     var localizer: Localizer
     var driveOverride: DrivetrainOverride
@@ -89,22 +89,22 @@ class BaseTele(opmode: LinearOpMode, color: AllianceColor) {
             TeleGlobals.currentPosition = AutoGlobals.locationOfRobot!!
         } else {
             TeleGlobals.currentPosition = when (color) {
-                AllianceColor.Blue -> AutoPoints.FastStartBlue.pose
-                AllianceColor.Red -> AutoPoints.FastStartRed.pose
+                AllianceColor.Blue -> AutoPoints.Test1.pose
+                AllianceColor.Red -> AutoPoints.Test1.pose
             }
         }
 
         if (AutoGlobals.locationOfRobot == Poses(0.0,0.0,0.0)) {
             TeleGlobals.currentPosition = if(AutoGlobals.FarAuto) {
                 when (color) {
-                    AllianceColor.Blue -> AutoPoints.EndFarBlue.pose
-                    AllianceColor.Red -> AutoPoints.EndFarRed.pose
+                    AllianceColor.Blue -> AutoPoints.Test1.pose
+                    AllianceColor.Red -> AutoPoints.Test1.pose
                 }
             }
             else {
                when (color) {
-                    AllianceColor.Blue -> AutoPoints.EndBlue.pose
-                    AllianceColor.Red -> AutoPoints.EndRed.pose
+                    AllianceColor.Blue -> AutoPoints.Test1.pose
+                    AllianceColor.Red -> AutoPoints.Test1.pose
                 }
             }
         }
@@ -147,7 +147,7 @@ class BaseTele(opmode: LinearOpMode, color: AllianceColor) {
         rotateTo = Button()
         kickstand = Button()
 
-        robot = InterleagueActions(hardwareMap, telemetry)
+        robot = Actions(hardwareMap, telemetry)
 
         drive = Drivetrain(hardwareMap, color)
         localizer = Localizer(hardwareMap, TeleGlobals.currentPosition)
@@ -192,7 +192,7 @@ class BaseTele(opmode: LinearOpMode, color: AllianceColor) {
         //Shoot sequence
         if (shoot.pressed(gamepad1.right_trigger >= 0.5) && shootingActions.isEmpty()) {
             // Add the shooting action to the list of running actions
-            shootingActions.add(robot.ShootTele())
+            shootingActions.add(robot.Shoot())
         }
 
         //intake control
@@ -222,12 +222,12 @@ class BaseTele(opmode: LinearOpMode, color: AllianceColor) {
         if(decreaseOffset.pressed(gamepad1.dpad_left)){
             turnOffset -= 0.02
         }
-        if(kickstand.pressed(gamepad1.y)){
-            runningActions.add(robot.Kickstand())
-        }
-        else if(kickstand.released(gamepad1.y)) {
-            runningActions.add(robot.Reset())
-        }
+//        if(kickstand.pressed(gamepad1.y)){
+//            runningActions.add(robot.Kickstand())
+//        }
+//        else if(kickstand.released(gamepad1.y)) {
+//            runningActions.add(robot.Reset())
+//        }
 
 //        //drivetrain override
 //        if (driveTo.pressed(gamepad1.y)) {

@@ -9,7 +9,7 @@ public class Lights {
     double change = 0.01;
 
     public Lights(HardwareMap hardwareMap) {
-        blinkin = hardwareMap.get(Servo.class, "blinkin");
+        blinkin = hardwareMap.get(Servo.class, "lights");
         blinkin2 = hardwareMap.get(Servo.class, "blinkin2");
 
     }
