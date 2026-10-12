@@ -29,7 +29,7 @@ SingleLauncherTestPID: LinearOpMode() {
 
         var leftParams: PIDParams
 
-        val launcher = SingleLauncher(hardwareMap)
+        val launcher = SingleLauncher(hardwareMap, "")
 
         launcher.start()
 

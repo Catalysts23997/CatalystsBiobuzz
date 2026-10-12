@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 class AutoSpline : LinearOpMode() {
 
     override fun runOpMode() {
-        AutoGlobals.targetRobotPath = PathFollower(AutoSplines.Path1.poses)
+        AutoGlobals.targetRobotPath = PathFollower(AutoSplines.Path1.poses, false)
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
@@ -52,7 +52,7 @@ class AutoSpline : LinearOpMode() {
 
 
                         localizer.update()
-                        FollowPath(AutoGlobals.targetRobotPath)
+                        FollowPath()
                         AutoGlobals.locationOfRobot = Poses(
                             Localizer.Companion.pose.x,
                             Localizer.Companion.pose.y,

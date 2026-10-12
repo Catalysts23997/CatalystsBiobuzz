@@ -16,7 +16,7 @@ public class LauncherTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        launcher = new SingleLauncher(hardwareMap);
+        launcher = new SingleLauncher(hardwareMap, "");
         telemetry = FtcDashboard.getInstance().getTelemetry();
 
         double speed = 0;
