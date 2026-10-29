@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "RedScenario1", group = "Auto")
-class RedScenario1: LinearOpMode() {
+@Autonomous(name = "BlueUpWithTeammate", group = "Auto")
+class BlueUpWithTeammate: LinearOpMode() {
     override fun runOpMode() {
-        AutoGlobals.targetRobotPositon = AutoPoints.StartRed.pose
+        AutoGlobals.targetRobotPositon = AutoPoints.Start1Blue.pose
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
@@ -51,9 +51,9 @@ class RedScenario1: LinearOpMode() {
                         localizer.update()
                         RunToExactForever(AutoGlobals.targetRobotPositon)
                         AutoGlobals.locationOfRobot = Poses(
-                            Localizer.Companion.pose.x,
-                            Localizer.Companion.pose.y,
-                            Localizer.Companion.pose.heading
+                            Localizer.pose.x,
+                            Localizer.pose.y,
+                            Localizer.pose.heading
                         )
 
 
@@ -61,7 +61,7 @@ class RedScenario1: LinearOpMode() {
                             "Target Position",
                             AutoGlobals.targetRobotPositon.toString()
                         )
-                        telemetry.addData("Current Pose", Localizer.Companion.pose.toString())
+                        telemetry.addData("Current Pose", Localizer.pose.toString())
                         telemetry.addData(
                             "Location of robot being transferred",
                             AutoGlobals.locationOfRobot.toString()
@@ -76,23 +76,19 @@ class RedScenario1: LinearOpMode() {
                     }
                 },
                 SequentialAction(
-                    AutoPoints.Launch1Red.runToExact(),
+                    AutoPoints.Launch1Blue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.RedFlower1.runToExact(),
+                    AutoPoints.Flower1Blue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Launch1Red.runToExact(),
+                    AutoPoints.Launch1Blue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.RedGardenStart.runToExact(),
+                    AutoPoints.GardenStartBlue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.RedGardenEnd.runToExact(),
+                    AutoPoints.GardenEndBlue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Launch1Red.runToExact(),
+                    AutoPoints.Launch1Blue.runToExact(),
                     robot.WaitAction(500.0),
-
-
-
-
-
+                    AutoPoints.EndBlue.runToExact(),
                 )
             )
         )

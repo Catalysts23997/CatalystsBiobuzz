@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "RedScenario2", group = "Auto")
-class RedScenario2: LinearOpMode() {
+@Autonomous(name = "RedUpNoTeammate", group = "Auto")
+class RedUpNoTeammate: LinearOpMode() {
     override fun runOpMode() {
-        AutoGlobals.targetRobotPositon = AutoPoints.StartRed.pose
+        AutoGlobals.targetRobotPositon = AutoPoints.Start1Red.pose
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
@@ -78,18 +78,15 @@ class RedScenario2: LinearOpMode() {
                 SequentialAction(
                     AutoPoints.Launch1Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.RedFlower1.runToExact(),
+                    AutoPoints.Flower1Red.runToExact(),
                     robot.WaitAction(500.0),
                     AutoPoints.Launch2Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.RedFlower2.runToExact(),
+                    AutoPoints.Flower2Red.runToExact(),
                     robot.WaitAction(500.0),
                     AutoPoints.Launch2Red.runToExact(),
-
-
-
-
-
+                    robot.WaitAction(500.0),
+                    AutoPoints.EndRed.runToExact(),
                 )
             )
         )

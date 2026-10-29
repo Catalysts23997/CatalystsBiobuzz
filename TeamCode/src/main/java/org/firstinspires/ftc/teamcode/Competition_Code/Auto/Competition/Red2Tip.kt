@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 @Autonomous(name = "Red2Tip", group = "Auto")
 class Red2Tip: LinearOpMode() {
     override fun runOpMode() {
-        AutoGlobals.targetRobotPositon = AutoPoints.StartRed.pose
+        AutoGlobals.targetRobotPositon = AutoPoints.Start1Red.pose
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
@@ -77,12 +77,12 @@ class Red2Tip: LinearOpMode() {
                 SequentialAction(
                     AutoPoints.Launch1Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Intake1Red.runToExact(),
+                    AutoPoints.Flower1Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.TransitionRed.runToFast(),
+                    AutoPoints.Transition1Red.runToFast(),
                     AutoPoints.Launch2Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Intake2Red.runToExact(),
+                    AutoPoints.Flower2Red.runToExact(),
                     robot.WaitAction(500.0),
                     AutoPoints.Launch2Red.runToExact(),
                     robot.WaitAction(500.0),

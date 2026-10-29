@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum AutoSplines {
-    Launch1(new ArrayList<Poses>(List.of(AutoPoints.StartRed.pose, AutoPoints.Launch1Red.pose))),
-    Intake1(new ArrayList<Poses>(List.of(AutoPoints.Launch1Red.pose, AutoPoints.Intake1Red.pose)), true),
-    Launch2(new ArrayList<Poses>(List.of(AutoPoints.Intake1Red.pose, AutoPoints.TransitionRed.pose, AutoPoints.Launch2Red.pose))),
-    Intake2(new ArrayList<Poses>(List.of(AutoPoints.Launch2Red.pose, AutoPoints.Intake2Red.pose)), true),
-    Launch3(new ArrayList<Poses>(List.of(AutoPoints.Intake2Red.pose,AutoPoints.Launch2Red.pose))),
+    Launch1(new ArrayList<Poses>(List.of(AutoPoints.Start1Red.pose, AutoPoints.Launch1Red.pose))),
+    Intake1(new ArrayList<Poses>(List.of(AutoPoints.Launch1Red.pose, AutoPoints.Flower1Red.pose)), true),
+    Launch2(new ArrayList<Poses>(List.of(AutoPoints.Flower1Red.pose, AutoPoints.Transition1Red.pose, AutoPoints.Launch2Red.pose))),
+    Intake2(new ArrayList<Poses>(List.of(AutoPoints.Launch2Red.pose, AutoPoints.Flower2Red.pose)), true),
+    Launch3(new ArrayList<Poses>(List.of(AutoPoints.Flower2Red.pose,AutoPoints.Launch2Red.pose))),
     End(new ArrayList<Poses>(List.of(AutoPoints.Launch2Red.pose, AutoPoints.EndRed.pose)), true),
 
 
