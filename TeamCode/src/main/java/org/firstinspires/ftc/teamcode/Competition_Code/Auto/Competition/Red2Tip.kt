@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.ftc.runBlocking
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.Competition_Code.Actions.Actions
+import org.firstinspires.ftc.teamcode.Competition_Code.Actions.NewActions
 import org.firstinspires.ftc.teamcode.Competition_Code.AllianceColor
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoGlobals
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoPoints
@@ -27,11 +28,10 @@ class Red2Tip: LinearOpMode() {
         telemetry = dash.telemetry
 
         val localizer = Localizer(hardwareMap, AutoGlobals.targetRobotPositon)
-        val drive = Drivetrain(hardwareMap, AllianceColor.Blue)
-        val robot = Actions(hardwareMap, telemetry)
+        val drive = Drivetrain(hardwareMap, AllianceColor.Red)
+        val robot = NewActions(hardwareMap, telemetry)
 
 
-        robot.holder.state = Servo.State.STOP1
         robot.update()
 
         waitForStart()
@@ -67,7 +67,6 @@ class Red2Tip: LinearOpMode() {
                             AutoGlobals.locationOfRobot.toString()
                         )
                         telemetry.addData("Drive speed", AutoGlobals.driveSpeed)
-                        telemetry.addData("Launcher rpm goal", robot.launcher.goalRPM)
 
                         telemetry.update()
                         robot.update()
@@ -83,7 +82,7 @@ class Red2Tip: LinearOpMode() {
                     AutoPoints.TransitionRed.runToFast(),
                     AutoPoints.Launch2Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Intake1Red.runToExact(),
+                    AutoPoints.Intake2Red.runToExact(),
                     robot.WaitAction(500.0),
                     AutoPoints.Launch2Red.runToExact(),
                     robot.WaitAction(500.0),

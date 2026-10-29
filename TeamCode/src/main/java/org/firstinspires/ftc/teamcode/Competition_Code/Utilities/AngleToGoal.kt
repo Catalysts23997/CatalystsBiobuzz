@@ -13,8 +13,8 @@ fun goalAngle(
     alliance: AllianceColor
 ): Double {
 
-    val basketX = if (alliance == AllianceColor.Blue) -67.0 else 67.0
-    val basketY = 67.0
+    val basketX = if (alliance == AllianceColor.Blue) 12.5 else -12.5
+    val basketY = if (currentY >0) 18 else -18
 
     val dx = basketX - currentX
     val dy = basketY - currentY

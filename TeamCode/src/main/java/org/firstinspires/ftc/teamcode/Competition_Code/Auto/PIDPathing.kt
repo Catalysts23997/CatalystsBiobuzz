@@ -34,9 +34,20 @@ class FollowPath: Action {
     private val kS = 0.05
 
     override fun run(p: TelemetryPacket): Boolean {
+
+
         val current = Localizer.pose
         val drive = Drivetrain.instance
         val currentTime = time.time()
+
+        if (targetRobotPath.isFinished()) {
+            drive.leftFront.power = 0.0
+            drive.rightFront.power = 0.0
+            drive.leftBack.power = 0.0
+            drive.rightBack.power = 0.0
+            return false
+        }
+
 
         if (lastTime < 0) {
             lastTime = currentTime
@@ -58,7 +69,7 @@ class FollowPath: Action {
             targetHeading = Angles.wrap(targetHeading + Math.PI) // Facing flipped 180 degrees
         }
 
-        val headingError = Angles.wrap(path.heading - targetHeading)
+        val headingError = Angles.wrap( targetHeading - current.heading)
 
         val turn = drive.Rpid.calculate(headingError)
 
@@ -96,10 +107,13 @@ class FollowPath: Action {
 
         val powerCoefficient = AutoGlobals.driveSpeed
 
+
         drive.leftFront.power = powerCoefficient*(pFL / maxPower)
         drive.rightFront.power = powerCoefficient*(pFR / maxPower)
         drive.leftBack.power = powerCoefficient*(pBL / maxPower)
         drive.rightBack.power = powerCoefficient*(pBR / maxPower)
+
+
 
         return true
     }

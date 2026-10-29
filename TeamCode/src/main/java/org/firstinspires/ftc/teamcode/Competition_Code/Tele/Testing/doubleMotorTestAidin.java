@@ -1,12 +1,11 @@
-package org.firstinspires.ftc.teamcode.Competition_Code.Subsystems;
+package org.firstinspires.ftc.teamcode.Competition_Code.Tele.Testing;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.SingleLauncher;
 
 @TeleOp(name = "Double Motor Test", group = "Linear OpMode")
 public class doubleMotorTestAidin extends LinearOpMode {
@@ -21,8 +20,8 @@ public class doubleMotorTestAidin extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        motor1 = new SingleLauncher(hardwareMap, "TestMotor1");
-        motor2 = new SingleLauncher(hardwareMap, "TestMotor2");
+        motor1 = new SingleLauncher(hardwareMap, "launcher");
+        motor2 = new SingleLauncher(hardwareMap, "intake1");
 
         telemetry = FtcDashboard.getInstance().getTelemetry();
 

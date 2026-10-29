@@ -89,25 +89,25 @@ class BaseTele(opmode: LinearOpMode, color: AllianceColor) {
             TeleGlobals.currentPosition = AutoGlobals.locationOfRobot!!
         } else {
             TeleGlobals.currentPosition = when (color) {
-                AllianceColor.Blue -> AutoPoints.Test1.pose
-                AllianceColor.Red -> AutoPoints.Test1.pose
+                AllianceColor.Blue -> AutoPoints.StartBlue.pose
+                AllianceColor.Red -> AutoPoints.StartRed.pose
             }
         }
 
-        if (AutoGlobals.locationOfRobot == Poses(0.0,0.0,0.0)) {
-            TeleGlobals.currentPosition = if(AutoGlobals.FarAuto) {
-                when (color) {
-                    AllianceColor.Blue -> AutoPoints.Test1.pose
-                    AllianceColor.Red -> AutoPoints.Test1.pose
-                }
-            }
-            else {
-               when (color) {
-                    AllianceColor.Blue -> AutoPoints.Test1.pose
-                    AllianceColor.Red -> AutoPoints.Test1.pose
-                }
-            }
-        }
+//        if (AutoGlobals.locationOfRobot == Poses(0.0,0.0,0.0)) {
+//            TeleGlobals.currentPosition = if(AutoGlobals.FarAuto) {
+//                when (color) {
+//                    AllianceColor.Blue -> AutoPoints.Test1.pose
+//                    AllianceColor.Red -> AutoPoints.Test1.pose
+//                }
+//            }
+//            else {
+//               when (color) {
+//                    AllianceColor.Blue -> AutoPoints.Test1.pose
+//                    AllianceColor.Red -> AutoPoints.Test1.pose
+//                }
+//            }
+//        }
 
         telemetry.addData("Robot at position ",  TeleGlobals.currentPosition)
 

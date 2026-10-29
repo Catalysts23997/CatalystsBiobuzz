@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.ftc.runBlocking
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.Competition_Code.Actions.Actions
+import org.firstinspires.ftc.teamcode.Competition_Code.Actions.NewActions
 import org.firstinspires.ftc.teamcode.Competition_Code.AllianceColor
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoGlobals
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoSplines
@@ -30,10 +31,9 @@ class AutoSpline : LinearOpMode() {
 
         val localizer = Localizer(hardwareMap, AutoSplines.Path1.poses[0])
         val drive = Drivetrain(hardwareMap, AllianceColor.Blue)
-        val robot = Actions(hardwareMap, telemetry)
+        val robot = NewActions(hardwareMap, telemetry)
 
 
-        robot.holder.state = Servo.State.STOP1
         robot.update()
 
         waitForStart()
@@ -70,7 +70,6 @@ class AutoSpline : LinearOpMode() {
                             AutoGlobals.locationOfRobot.toString()
                         )
                         telemetry.addData("Drive speed", AutoGlobals.driveSpeed)
-                        telemetry.addData("Launcher rpm goal", robot.launcher.goalRPM)
 
                         telemetry.update()
                         robot.update()
@@ -79,9 +78,7 @@ class AutoSpline : LinearOpMode() {
                     }
                 },
                 SequentialAction(
-                    robot.StartShooter,
                     AutoSplines.Path1.followPath(),
-                    robot.Shoot(),
 
 
                 )

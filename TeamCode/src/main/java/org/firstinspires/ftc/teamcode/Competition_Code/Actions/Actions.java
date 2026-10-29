@@ -81,7 +81,7 @@ public class Actions {
 
         holder = new Servo(hardwareMap,"holder");
 
-        launcher = new SingleLauncher(hardwareMap, "");
+        launcher = new SingleLauncher(hardwareMap, "launcher");
 
         lights = new Lights(hardwareMap);
 
