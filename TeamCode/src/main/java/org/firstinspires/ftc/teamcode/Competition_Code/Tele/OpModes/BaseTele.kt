@@ -89,8 +89,8 @@ class BaseTele(opmode: LinearOpMode, color: AllianceColor) {
             TeleGlobals.currentPosition = AutoGlobals.locationOfRobot!!
         } else {
             TeleGlobals.currentPosition = when (color) {
-                AllianceColor.Blue -> AutoPoints.StartBlue.pose
-                AllianceColor.Red -> AutoPoints.StartRed.pose
+                AllianceColor.Blue -> AutoPoints.Start1Blue.pose
+                AllianceColor.Red -> AutoPoints.Start1Red.pose
             }
         }
 

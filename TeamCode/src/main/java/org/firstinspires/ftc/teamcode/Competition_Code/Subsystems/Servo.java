@@ -9,9 +9,9 @@ public class Servo {
     public State state =State.RESET;
     public double launchpos = 0.07;
 
-    public Servo(HardwareMap hardwareMap, String name){
+    /*public Servo(HardwareMap hardwareMap, String name){
         servo = hardwareMap.get(com.qualcomm.robotcore.hardware.Servo.class, name);
-    }
+    }*/
 
     public void update() {
         if (state == State.RESET) {

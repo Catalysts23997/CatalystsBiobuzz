@@ -31,7 +31,7 @@ class RedUpWithTeammate: LinearOpMode() {
         val robot = Actions(hardwareMap, telemetry)
 
 
-        robot.holder.state = Servo.State.STOP1
+        //robot.holder.state = Servo.State.STOP1
         robot.update()
 
         waitForStart()
@@ -67,7 +67,7 @@ class RedUpWithTeammate: LinearOpMode() {
                             AutoGlobals.locationOfRobot.toString()
                         )
                         telemetry.addData("Drive speed", AutoGlobals.driveSpeed)
-                        telemetry.addData("Launcher rpm goal", robot.launcher.goalRPM)
+//                        telemetry.addData("Launcher rpm goal", robot.launcher.goalRPM)
 
                         telemetry.update()
                         robot.update()

@@ -45,15 +45,15 @@ public class SingleLauncher {
     ///
     /// # Only one instance should be active at a given time!
     public SingleLauncher(HardwareMap hardwareMap, String name) {
-        launcher = hardwareMap.get(DcMotorEx.class, name);
-        launcher.setDirection(DcMotorSimple.Direction.FORWARD);
+        //launcher = hardwareMap.get(DcMotorEx.class, name);
+        //launcher.setDirection(DcMotorSimple.Direction.FORWARD);
 
         timer.reset();
 
-        launcher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //launcher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        launcher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        //launcher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
@@ -113,7 +113,7 @@ public class SingleLauncher {
 
         power = Math.max(-1.0, Math.min(1.0, power));
 
-        launcher.setPower(power);
+        //launcher.setPower(power);
     }
 
 

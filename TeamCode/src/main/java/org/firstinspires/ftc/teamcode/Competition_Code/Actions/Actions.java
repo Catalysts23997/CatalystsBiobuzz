@@ -38,52 +38,52 @@ public class Actions {
 
     public void update() {
 
-        intake.update();
-        pulley.update();
+        //intake.update();
+        //pulley.update();
 
-        holder.update();
+//        holder.update();
 
         //color control
-        if(green){
-            lights.color = Lights.Color.green;
-        } else if (red) {
-            lights.color = Lights.Color.red;
-        } else if(timer.milliseconds() >=500) {
-            lights.color = Lights.Color.yellow;
-        }
-        else {
-            lights.color = Lights.Color.blue;
-        }
-        if(timer.milliseconds() >=1000) {
-            timer.reset();
-        }
-        lights.update();
+//        if(green){
+//            lights.color = Lights.Color.green;
+//        } else if (red) {
+//            lights.color = Lights.Color.red;
+//        } else if(timer.milliseconds() >=500) {
+//            lights.color = Lights.Color.yellow;
+//        }
+//        else {
+//            lights.color = Lights.Color.blue;
+//        }
+//        if(timer.milliseconds() >=1000) {
+//            timer.reset();
+//        }
+//        lights.update();
 
 
         //telemetry
-        launcher.update();
-        telemetry.addData("Light", lights.color.toString());
-        telemetry.addData("Light", lights.color.value);
-
-        telemetry.addData("Intake State", intake.state);
-        telemetry.addData("Pulley State", pulley.state);
-
-        telemetry.addData("Holder State", holder.state);
-
-        telemetry.addData("Launcher Speed", launcher.getRpm());
+//        launcher.update();
+//        telemetry.addData("Light", lights.color.toString());
+//        telemetry.addData("Light", lights.color.value);
+//
+//        telemetry.addData("Intake State", intake.state);
+//        telemetry.addData("Pulley State", pulley.state);
+//
+//        telemetry.addData("Holder State", holder.state);
+//
+//        telemetry.addData("Launcher Speed", launcher.getRpm());
 
 
     }
 
     public Actions(HardwareMap hardwareMap, Telemetry telemetry) {
-        intake = new Intake(hardwareMap);
-        pulley = new Pulley(hardwareMap);
+        //intake = new Intake(hardwareMap);
+        //pulley = new Pulley(hardwareMap);
 
-        holder = new Servo(hardwareMap,"holder");
+        //holder = new Servo(hardwareMap,"holder");
 
-        launcher = new SingleLauncher(hardwareMap, "launcher");
+        //launcher = new SingleLauncher(hardwareMap, "launcher");
 
-        lights = new Lights(hardwareMap);
+        //lights = new Lights(hardwareMap);
 
         timer = new ElapsedTime();
 

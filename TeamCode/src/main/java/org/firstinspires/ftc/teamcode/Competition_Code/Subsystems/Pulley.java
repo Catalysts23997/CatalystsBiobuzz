@@ -11,8 +11,8 @@ public class Pulley {
     public State state;
 
     public Pulley(HardwareMap hardwareMap){
-        pulley = hardwareMap.get(DcMotor.class, "pulley");
-        pulley.setDirection(DcMotorSimple.Direction.FORWARD);
+        //pulley = hardwareMap.get(DcMotor.class, "pulley");
+        //pulley.setDirection(DcMotorSimple.Direction.FORWARD);
         state= State.Off;
     }
 
