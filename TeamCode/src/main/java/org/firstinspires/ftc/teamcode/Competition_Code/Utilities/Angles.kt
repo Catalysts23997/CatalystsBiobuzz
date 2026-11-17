@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Competition_Code.Utilities
 import kotlin.math.PI
 
 object Angles {
+    @JvmStatic
     fun wrap(theta: Double): Double {
         var angle = theta
         while (angle > PI) angle -= PI * 2

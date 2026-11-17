@@ -99,7 +99,7 @@ class Localizer(hwmap: HardwareMap, var offset: Poses) {
         odo.setPosition(Pose2D(DistanceUnit.INCH,offset.y, -offset.x, AngleUnit.RADIANS,0.0))
     }
     companion object{
-        @JvmField
+
         var pose: Poses = Poses(40.00,40.0,.05)
         var velocity: Poses = Poses(0.0,0.0,0.0)
     }

@@ -27,10 +27,13 @@ class Drivetrain(hwMap: HardwareMap, alliance: AllianceColor) : SubSystems {
     val Rpid = PIDController(PIDParams(1.6, 0.0001, 0.08, 0.0))
     val Rpid2 = PIDController(PIDParams(0.5, 0.0001, 0.08, 0.0))
 
-
+    @JvmField
     val leftFront: DcMotor = hwMap.get(DcMotor::class.java, "frontLeft") //good
+    @JvmField
     val rightBack: DcMotor = hwMap.get(DcMotor::class.java, "backRight") // good
+    @JvmField
     val leftBack: DcMotor = hwMap.get(DcMotor::class.java, "backLeft") // good
+    @JvmField
     val rightFront: DcMotor = hwMap.get(DcMotor::class.java, "frontRight")
 
     var offset: Double = 0.0

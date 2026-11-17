@@ -25,7 +25,7 @@ public class Pulley {
         Slow(0.6),
         Reverse(-1.0),
         Off(0.0);
-        public final double power;
+        public double power;
         State(double power) {
             this.power = power;
         }
