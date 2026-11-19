@@ -19,10 +19,10 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "Red1Tip", group = "Auto")
+@Autonomous(name = "MoveRed", group = "Auto")
 class MoveRed: LinearOpMode() {
     override fun runOpMode() {
-        AutoGlobals.targetRobotPositon = AutoPoints.Start2Red.pose
+        AutoGlobals.targetRobotPositon = AutoPoints.Start3Red.pose
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry

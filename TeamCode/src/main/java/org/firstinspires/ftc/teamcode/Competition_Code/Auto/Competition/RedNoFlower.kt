@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "Red2Tip", group = "Auto")
+@Autonomous(name = "RedNoFlower", group = "Auto")
 class RedNoFlower: LinearOpMode() {
     override fun runOpMode() {
         AutoGlobals.targetRobotPositon = AutoPoints.Start1Red.pose
