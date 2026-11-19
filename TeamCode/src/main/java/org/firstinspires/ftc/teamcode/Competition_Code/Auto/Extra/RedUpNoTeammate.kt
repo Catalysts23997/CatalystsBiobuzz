@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Competition_Code.Auto.Competition
+package org.firstinspires.ftc.teamcode.Competition_Code.Auto.Extra
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "BlueUpWithTeammate", group = "Auto")
-class BlueUpWithTeammate: LinearOpMode() {
+@Autonomous(name = "RedUpNoTeammate", group = "Auto")
+class RedUpNoTeammate: LinearOpMode() {
     override fun runOpMode() {
-        AutoGlobals.targetRobotPositon = AutoPoints.Start1Blue.pose
+        AutoGlobals.targetRobotPositon = AutoPoints.Start1Red.pose
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
@@ -76,19 +76,17 @@ class BlueUpWithTeammate: LinearOpMode() {
                     }
                 },
                 SequentialAction(
-                    AutoPoints.Launch1Blue.runToExact(),
+                    AutoPoints.Launch1Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Flower1Blue.runToExact(),
+                    AutoPoints.Flower1Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Launch1Blue.runToExact(),
+                    AutoPoints.Launch2Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.GardenStartBlue.runToExact(),
+                    AutoPoints.Flower2Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.GardenEndBlue.runToExact(),
+                    AutoPoints.Launch2Red.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Launch1Blue.runToExact(),
-                    robot.WaitAction(500.0),
-                    AutoPoints.EndBlue.runToExact(),
+                    AutoPoints.EndRed.runToExact(),
                 )
             )
         )

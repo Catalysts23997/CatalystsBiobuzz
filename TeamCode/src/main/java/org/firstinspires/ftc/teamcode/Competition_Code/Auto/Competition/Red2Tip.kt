@@ -77,6 +77,7 @@ class Red2Tip: LinearOpMode() {
                 SequentialAction(
                     AutoPoints.Launch1Red.runToExact(),
                     robot.WaitAction(500.0),
+                    AutoPoints.MidRed.runToExact(),
                     AutoPoints.Flower1Red.runToExact(),
                     robot.WaitAction(500.0),
                     AutoPoints.Transition1Red.runToFast(),

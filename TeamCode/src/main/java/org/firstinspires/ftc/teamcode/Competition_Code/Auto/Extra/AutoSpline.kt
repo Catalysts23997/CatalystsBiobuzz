@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Competition_Code.Auto.Competition
+package org.firstinspires.ftc.teamcode.Competition_Code.Auto.Extra
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
@@ -8,35 +8,36 @@ import com.acmerobotics.roadrunner.SequentialAction
 import com.acmerobotics.roadrunner.ftc.runBlocking
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.firstinspires.ftc.teamcode.Competition_Code.Actions.Actions
+import org.firstinspires.ftc.teamcode.Competition_Code.Actions.NewActions
 import org.firstinspires.ftc.teamcode.Competition_Code.AllianceColor
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoGlobals
-import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoPoints
-import org.firstinspires.ftc.teamcode.Competition_Code.Auto.RunToExactForever
+import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoSplines
+import org.firstinspires.ftc.teamcode.Competition_Code.Auto.FollowPath
+import org.firstinspires.ftc.teamcode.Competition_Code.Auto.Spline.PathFollower
 import org.firstinspires.ftc.teamcode.Competition_Code.PinpointLocalizer.Localizer
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "BlueUpNoTeammate", group = "Auto")
-class BlueUpNoTeammate: LinearOpMode() {
+@Autonomous(name = "AutoSpline", group = "Auto")
+class AutoSpline : LinearOpMode() {
+
     override fun runOpMode() {
-        AutoGlobals.targetRobotPositon = AutoPoints.Start1Blue.pose
+        AutoGlobals.targetRobotPath = PathFollower(AutoSplines.Path1.poses, false)
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
 
-        val localizer = Localizer(hardwareMap, AutoGlobals.targetRobotPositon)
+        val localizer = Localizer(hardwareMap, AutoSplines.Path1.poses[0])
         val drive = Drivetrain(hardwareMap, AllianceColor.Blue)
-        val robot = Actions(hardwareMap, telemetry)
+        val robot = NewActions(hardwareMap, telemetry)
 
 
-        robot.holder.state = Servo.State.STOP1
         robot.update()
 
         waitForStart()
 
         AutoGlobals.AutonomousRan = true
+
 
         runBlocking(
             ParallelAction(
@@ -49,7 +50,7 @@ class BlueUpNoTeammate: LinearOpMode() {
 
 
                         localizer.update()
-                        RunToExactForever(AutoGlobals.targetRobotPositon)
+                        FollowPath()
                         AutoGlobals.locationOfRobot = Poses(
                             Localizer.pose.x,
                             Localizer.pose.y,
@@ -67,7 +68,6 @@ class BlueUpNoTeammate: LinearOpMode() {
                             AutoGlobals.locationOfRobot.toString()
                         )
                         telemetry.addData("Drive speed", AutoGlobals.driveSpeed)
-                        telemetry.addData("Launcher rpm goal", robot.launcher.goalRPM)
 
                         telemetry.update()
                         robot.update()
@@ -76,17 +76,9 @@ class BlueUpNoTeammate: LinearOpMode() {
                     }
                 },
                 SequentialAction(
-                    AutoPoints.Launch1Red.runToExact(),
-                    robot.WaitAction(500.0),
-                    AutoPoints.Flower1Blue.runToExact(),
-                    robot.WaitAction(500.0),
-                    AutoPoints.Launch2Blue.runToExact(),
-                    robot.WaitAction(500.0),
-                    AutoPoints.Flower2Blue.runToExact(),
-                    robot.WaitAction(500.0),
-                    AutoPoints.Launch2Blue.runToExact(),
-                    robot.WaitAction(500.0),
-                    AutoPoints.EndBlue.runToExact(),
+                    AutoSplines.Path1.followPath(),
+
+
                 )
             )
         )

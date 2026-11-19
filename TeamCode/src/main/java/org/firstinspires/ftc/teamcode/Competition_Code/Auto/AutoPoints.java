@@ -8,7 +8,9 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses;
 public enum AutoPoints {
 
     //testing
-    Start1Red(new Vector2d(-12.5, -63), Math.PI),
+    Start1Red(new Vector2d(-12.5, -64), Math.PI),
+    Start2Red(new Vector2d(-64, 0), Math.PI),
+
     Launch1Red(new Vector2d(-12.5,-55), Math.PI),
     Flower1Red(new Vector2d(-58,-15), 3*Math.PI/2),
     Transition1Red(new Vector2d(-45,40), 9*Math.PI/8),
@@ -16,7 +18,8 @@ public enum AutoPoints {
     Flower2Red(new Vector2d(-15,58), 0.0),
     GardenStartRed(new Vector2d(-40, -63), 0.0),
     GardenEndRed(new Vector2d(-63, -63), 0.0),
-    EndRed(new Vector2d(-55,53), Math.PI),
+    EndRed(new Vector2d(-60 ,21), Math.PI),
+    MidRed(new Vector2d(-40,-40), 5*Math.PI/4),
 
     Start1Blue(new Vector2d(12.5, 63), Math.PI),
     Launch1Blue(new Vector2d(12.5,55), Math.PI),

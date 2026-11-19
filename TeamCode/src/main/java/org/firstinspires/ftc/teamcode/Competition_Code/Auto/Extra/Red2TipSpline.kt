@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Competition_Code.Auto.Competition
+package org.firstinspires.ftc.teamcode.Competition_Code.Auto.Extra
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
@@ -8,7 +8,6 @@ import com.acmerobotics.roadrunner.SequentialAction
 import com.acmerobotics.roadrunner.ftc.runBlocking
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.firstinspires.ftc.teamcode.Competition_Code.Actions.Actions
 import org.firstinspires.ftc.teamcode.Competition_Code.Actions.NewActions
 import org.firstinspires.ftc.teamcode.Competition_Code.AllianceColor
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.AutoGlobals
@@ -17,14 +16,14 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Auto.FollowPath
 import org.firstinspires.ftc.teamcode.Competition_Code.Auto.Spline.PathFollower
 import org.firstinspires.ftc.teamcode.Competition_Code.PinpointLocalizer.Localizer
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
-import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "AutoSpline", group = "Auto")
-class AutoSpline : LinearOpMode() {
+
+@Autonomous(name = "Red2TipSpline", group = "Auto")
+class Red2TipSpline : LinearOpMode() {
 
     override fun runOpMode() {
-        AutoGlobals.targetRobotPath = PathFollower(AutoSplines.Path1.poses, false)
+        AutoGlobals.targetRobotPath = PathFollower(AutoSplines.Path1.poses, AutoSplines.Path1.backwards)
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
@@ -43,20 +42,20 @@ class AutoSpline : LinearOpMode() {
 
         runBlocking(
             ParallelAction(
+                ParallelAction(
+                    FollowPath(),
                 object : Action {
                     override fun run(p: TelemetryPacket): Boolean {
                         if (isStopRequested) {
                             stop()
                         }
 
-
-
                         localizer.update()
-                        FollowPath()
+
                         AutoGlobals.locationOfRobot = Poses(
-                            Localizer.Companion.pose.x,
-                            Localizer.Companion.pose.y,
-                            Localizer.Companion.pose.heading
+                            Localizer.pose.x,
+                            Localizer.pose.y,
+                            Localizer.pose.heading
                         )
 
 
@@ -64,24 +63,36 @@ class AutoSpline : LinearOpMode() {
                             "Target Position",
                             AutoGlobals.targetRobotPositon.toString()
                         )
-                        telemetry.addData("Current Pose", Localizer.Companion.pose.toString())
+                        telemetry.addData("Current Pose", Localizer.pose.toString())
                         telemetry.addData(
                             "Location of robot being transferred",
                             AutoGlobals.locationOfRobot.toString()
                         )
                         telemetry.addData("Drive speed", AutoGlobals.driveSpeed)
 
+
                         telemetry.update()
+
                         robot.update()
 
                         return true // keep looping
                     }
-                },
+                }
+                ),
                 SequentialAction(
-                    AutoSplines.Path1.followPath(),
+                    AutoSplines.Launch1.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.Intake1.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.Launch2.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.Intake2.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.Launch3.followPath(),
+                    robot.WaitAction(500.0),
+                    AutoSplines.End.followPath(),
 
-
-                )
+                    )
             )
         )
 

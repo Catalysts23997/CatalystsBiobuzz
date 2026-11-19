@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Competition_Code.Auto.Competition
+package org.firstinspires.ftc.teamcode.Competition_Code.Auto.Extra
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.Servo
 import org.firstinspires.ftc.teamcode.Competition_Code.Utilities.Poses
 
-@Autonomous(name = "RedUpNoTeammate", group = "Auto")
-class RedUpNoTeammate: LinearOpMode() {
+@Autonomous(name = "BlueUpWithTeammate", group = "Auto")
+class BlueUpWithTeammate: LinearOpMode() {
     override fun runOpMode() {
-        AutoGlobals.targetRobotPositon = AutoPoints.Start1Red.pose
+        AutoGlobals.targetRobotPositon = AutoPoints.Start1Blue.pose
 
         val dash: FtcDashboard = FtcDashboard.getInstance()
         telemetry = dash.telemetry
@@ -51,9 +51,9 @@ class RedUpNoTeammate: LinearOpMode() {
                         localizer.update()
                         RunToExactForever(AutoGlobals.targetRobotPositon)
                         AutoGlobals.locationOfRobot = Poses(
-                            Localizer.Companion.pose.x,
-                            Localizer.Companion.pose.y,
-                            Localizer.Companion.pose.heading
+                            Localizer.pose.x,
+                            Localizer.pose.y,
+                            Localizer.pose.heading
                         )
 
 
@@ -61,7 +61,7 @@ class RedUpNoTeammate: LinearOpMode() {
                             "Target Position",
                             AutoGlobals.targetRobotPositon.toString()
                         )
-                        telemetry.addData("Current Pose", Localizer.Companion.pose.toString())
+                        telemetry.addData("Current Pose", Localizer.pose.toString())
                         telemetry.addData(
                             "Location of robot being transferred",
                             AutoGlobals.locationOfRobot.toString()
@@ -76,17 +76,19 @@ class RedUpNoTeammate: LinearOpMode() {
                     }
                 },
                 SequentialAction(
-                    AutoPoints.Launch1Red.runToExact(),
+                    AutoPoints.Launch1Blue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Flower1Red.runToExact(),
+                    AutoPoints.Flower1Blue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Launch2Red.runToExact(),
+                    AutoPoints.Launch1Blue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Flower2Red.runToExact(),
+                    AutoPoints.GardenStartBlue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.Launch2Red.runToExact(),
+                    AutoPoints.GardenEndBlue.runToExact(),
                     robot.WaitAction(500.0),
-                    AutoPoints.EndRed.runToExact(),
+                    AutoPoints.Launch1Blue.runToExact(),
+                    robot.WaitAction(500.0),
+                    AutoPoints.EndBlue.runToExact(),
                 )
             )
         )
