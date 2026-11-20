@@ -20,7 +20,7 @@ public class DrivetrainUtils {
         Double toleranceDegrees
     ) {
 
-        Poses current = Localizer.pose;
+        Poses current = Localizer.Companion.getPose();
         Drivetrain drive = Drivetrain.instance;
 
         double latError = pose.getY() - current.getY();
@@ -32,7 +32,7 @@ public class DrivetrainUtils {
         double turn = drive.getRpid().calculate(headingError);
 
 
-        double h = -Localizer.pose.getHeading();
+        double h = -Localizer.Companion.getPose().getHeading();
         double rotX = -axial * Math.cos(h) - lateral * Math.sin(h);
         double rotY = -axial * Math.sin(h) + lateral * Math.cos(h);
 
@@ -42,9 +42,9 @@ public class DrivetrainUtils {
         drive.rightFront.setPower(powerCoefficient*(rotY + rotX - turn));
         drive.rightBack.setPower(powerCoefficient*(rotY - rotX - turn));
 
-        return (Math.abs(pose.getX() - Localizer.pose.getX()) <= toleranceDistance &&
-                Math.abs(pose.getY() - Localizer.pose.getY()) <= toleranceDistance &&
-                Math.abs(Angles.wrap(-pose.getHeading() + Localizer.pose.getHeading())) <= Math.toRadians(toleranceDegrees));
+        return (Math.abs(pose.getX() - Localizer.Companion.getPose().getX()) <= toleranceDistance &&
+                Math.abs(pose.getY() - Localizer.Companion.getPose().getY()) <= toleranceDistance &&
+                Math.abs(Angles.wrap(-pose.getHeading() + Localizer.Companion.getPose().getHeading())) <= Math.toRadians(toleranceDegrees));
     }
 
 }

@@ -13,7 +13,7 @@ class Localizer(hwmap: HardwareMap, var offset: Poses) {
 
     val timer = ElapsedTime()
 
-     val odo: GoBildaPinpointDriver = hwmap.get(
+    val odo: GoBildaPinpointDriver = hwmap.get(
         GoBildaPinpointDriver::class.java, "odo")
     init {
         /*
@@ -33,9 +33,8 @@ class Localizer(hwmap: HardwareMap, var offset: Poses) {
         backwards is a negative number.
          */
         odo.setOffsets(
-            6.25 * 25.4, -4.75 * 25.4
+            5.7 * 25.4, -6.6 * 25.4
         ) //these are tuned for 3110-0002-0001 Product Insight #1
-
 
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -43,11 +42,9 @@ class Localizer(hwmap: HardwareMap, var offset: Poses) {
         If you're using another kind of odometry pod, uncomment setEncoderResolution and input the
         number of ticks per mm of your odometry pod.
          */
-        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD)
-
+        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
 
         //odo.setEncoderResolution(13.26291192);
-
 
         /*
         Set the direction that each of the two odometry pods count. The X (forward) pod should
@@ -55,7 +52,6 @@ class Localizer(hwmap: HardwareMap, var offset: Poses) {
         you move the robot to the left.
          */
         //odo.setEncoderResolution(13.26291192);
-
 
         /*
         Set the direction that each of the two odometry pods count. The X (forward) pod should
@@ -67,13 +63,7 @@ class Localizer(hwmap: HardwareMap, var offset: Poses) {
             GoBildaPinpointDriver.EncoderDirection.REVERSED
         )
 
-
         //odo.setEncoderResolution(13.26291192);
-
-
-
-
-
 
         odo.resetPosAndIMU()
         timer.reset()
@@ -99,7 +89,6 @@ class Localizer(hwmap: HardwareMap, var offset: Poses) {
         odo.setPosition(Pose2D(DistanceUnit.INCH,offset.y, -offset.x, AngleUnit.RADIANS,0.0))
     }
     companion object{
-
         var pose: Poses = Poses(40.00,40.0,.05)
         var velocity: Poses = Poses(0.0,0.0,0.0)
     }
