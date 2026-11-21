@@ -40,7 +40,7 @@ public class DrivetrainOverride {
         if (null == target) return;
 
         // Calculate some math
-        Poses current = Localizer.pose;
+        Poses current = Localizer.Companion.getPose();
 
         double latError = target.getY() - current.getY();
         double axialError = target.getX() - current.getX();
@@ -71,10 +71,10 @@ public class DrivetrainOverride {
 
         powers = normalize(powers, 1.0);
 
-        drive.getLeftFront().setPower(powers[0]);
-        drive.getLeftBack().setPower(powers[1]);
-        drive.getRightFront().setPower(powers[2]);
-        drive.getRightBack().setPower(powers[3]);
+        drive.leftFront.setPower(powers[0]);
+        drive.leftBack.setPower(powers[1]);
+        drive.rightFront.setPower(powers[2]);
+        drive.rightBack.setPower(powers[3]);
 
         //removed so that it will continue to hold the position if bumped
 //        if (abs(axialError) <= 1.0 &&
@@ -94,7 +94,7 @@ public class DrivetrainOverride {
         if (null == targetAngle) return;
 
         // Calculate some math
-        Poses current = Localizer.pose;
+        Poses current = Localizer.Companion.getPose();
 
         double headingError = Angles.INSTANCE.wrap(
                 targetAngle- current.getHeading()
@@ -128,10 +128,10 @@ public class DrivetrainOverride {
 
         powers = normalize(powers, 1.0);
 
-        drive.getLeftFront().setPower(powers[0]);
-        drive.getLeftBack().setPower(powers[1]);
-        drive.getRightFront().setPower(powers[2]);
-        drive.getRightBack().setPower(powers[3]);
+        drive.leftFront.setPower(powers[0]);
+        drive.leftBack.setPower(powers[1]);
+        drive.rightFront.setPower(powers[2]);
+        drive.rightBack.setPower(powers[3]);
     }
 
     /// This function just checks to see if the user would like

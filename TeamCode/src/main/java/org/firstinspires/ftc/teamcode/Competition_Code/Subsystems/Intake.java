@@ -7,42 +7,31 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Intake {
 
     /// This value controls how fast the motors will be spinning.
-    ///
-    public static final double MOTOR_SPEED = 1;
+    /// TODO: ensure this value is fine. just got it from testing
+    public static final double MOTOR_SPEED = 0.8;
 
     ///  The current state of the intake system
     public State state = State.STOPPED;
 
-    /// The first intake motor
-    DcMotor intake1;
+    /// The intake motor
+    DcMotor intake;
 
     /// Declare a new instance of the intake system.
     ///
     /// # Only one instance should be active at a given time!
     public Intake(HardwareMap hardwareMap) {
         // Assign the physical motor to our variable
-        //intake1 = hardwareMap.get(DcMotor.class, "intake1");
+        intake = hardwareMap.get(DcMotor.class, "intake");
         // Make sure we know+ -the default state of our motor
-        //intake1.setDirection(DcMotorSimple.Direction.FORWARD);
-        //intake1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //intake1.setPower(0);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setPower(0);
     }
 
     // Helper functions to make setting the state a little more convenient
     ///  Set the current state of the intake system
     public void setState(State state) {
         this.state = state;
-    }
-
-    // Allows the intake to be toggled using a boolean, so the parent class doesn't
-    // need to keep track of the current state in any way
-    /// Set the current state of the intake system with a boolean.
-    ///
-    /// @deprecated This function shouldn't be used, as it assumes you want to set the state to intaking, not reverse.
-    /// @param shouldIntake If true, the intake motors will be spinning. If false, they will ball2.
-    public void setState(boolean shouldIntake) {
-        if (shouldIntake) this.state = State.INTAKING;
-        else this.state = State.STOPPED;
     }
 
     ///  Tick the intake system
@@ -60,23 +49,23 @@ public class Intake {
         }
     }
 
-    ///  Make motors spin
+    ///  Make motor spin
     private void doIntake() {
-        intake1.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake1.setPower(MOTOR_SPEED);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setPower(MOTOR_SPEED);
 
     }
 
-    ///  Make motors spin in reverse
+    ///  Make motor spin in reverse
     private void doReverse() {
-        intake1.setDirection(DcMotorSimple.Direction.REVERSE);
-        intake1.setPower(MOTOR_SPEED);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setPower(MOTOR_SPEED);
 
     }
 
-    /// Make motors ball2
+    /// Make motor stop intaking
     private void stopIntake() {
-        intake1.setPower(0);
+        intake.setPower(0);
 
     }
 
