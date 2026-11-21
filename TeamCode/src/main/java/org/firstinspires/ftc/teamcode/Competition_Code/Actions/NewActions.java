@@ -19,13 +19,14 @@ public class NewActions {
 
     Telemetry telemetry;
     ElapsedTime timer;
+    Intake intake;
 
 
     public void update() {
     }
 
     public NewActions(HardwareMap hardwareMap, Telemetry telemetry) {
-
+        intake = new Intake((hardwareMap));
 
 
         timer = new ElapsedTime();
@@ -54,4 +55,40 @@ public class NewActions {
             }
         };
     }
+
+    public Action StartIntake = new Action() {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            // Turn on our intake system!
+            intake.state = Intake.State.INTAKING;
+
+            // We return false because this only has to run once
+            return false;
+        }
+    };
+
+    public Action ReverseIntake = new Action() {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            // reverse intake system
+            intake.state = Intake.State.REVERSE;
+
+            // We return false because this only has to run once
+            return false;
+        }
+    };
+
+    public Action StopIntake = new Action() {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            // Stop our intake system
+            intake.state = Intake.State.STOPPED;
+
+            // We return false because this only has to run once
+            return false;
+        }
+    };
 }
