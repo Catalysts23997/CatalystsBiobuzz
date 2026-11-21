@@ -24,24 +24,22 @@ public class Actions {
     public Servo holder;
 
     public Intake intake;
-    Pulley pulley;
 
     public SingleLauncher launcher;
 
-    public Lights lights;
-
-    boolean green = false;
-    boolean red = false;
+//    public Lights lights;
+//
+//    boolean green = false;
+//    boolean red = false;
 
     Telemetry telemetry;
     ElapsedTime timer;
 
     public void update() {
 
-        //intake.update();
-        //pulley.update();
+        intake.update();
 
-//        holder.update();
+        holder.update();
 
         //color control
 //        if(green){
@@ -61,16 +59,15 @@ public class Actions {
 
 
         //telemetry
-//        launcher.update();
+        launcher.update();
 //        telemetry.addData("Light", lights.color.toString());
 //        telemetry.addData("Light", lights.color.value);
-//
-//        telemetry.addData("Intake State", intake.state);
-//        telemetry.addData("Pulley State", pulley.state);
-//
-//        telemetry.addData("Holder State", holder.state);
-//
-//        telemetry.addData("Launcher Speed", launcher.getRpm());
+
+        telemetry.addData("Intake State", intake.state);
+
+        telemetry.addData("Holder State", holder.state);
+
+        telemetry.addData("Launcher Speed", launcher.getRpm());
 
 
     }
@@ -120,7 +117,6 @@ public class Actions {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             // Turn on our intake system!
             intake.state = State.INTAKING;
-            pulley.state = Pulley.State.On;
 
             // We return false because this only has to run once
             return false;
@@ -133,7 +129,6 @@ public class Actions {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             // reverse intake system
             intake.state = State.REVERSE;
-            pulley.state = Pulley.State.Reverse;
 
             // We return false because this only has to run once
             return false;
@@ -146,7 +141,6 @@ public class Actions {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             // Stop our intake system
             intake.state = State.STOPPED;
-            pulley.state = Pulley.State.Off;
 
             // We return false because this only has to run once
             return false;
@@ -207,7 +201,7 @@ public class Actions {
     };
 
 
-    public Action CycleShootClose() {
+    public Action CycleShoot() {
         return new Action() {
             final ElapsedTime timer = new ElapsedTime();
             boolean initialized = false;
@@ -222,24 +216,15 @@ public class Actions {
                 }
 
                 if(launcher.atTargetRPM(launcher.getGoalRPM(), toleranceRPM)){
-                    pulley.state = Pulley.State.Slow;
                     intake.state = State.INTAKING;
-                    green = true;
-                    red = false;
                 }
                 else {
-                    pulley.state = Pulley.State.Off;
                     intake.state = State.STOPPED;
-                    red = true;
-                    green = false;
                 }
 
                 if(timer.milliseconds()>=pulleyShootTime+200){
-                    pulley.state = Pulley.State.Off;
                     intake.state = State.STOPPED;
                     holder.state = Servo.State.STOP1;
-                    red = false;
-                    green = false;
                     return false;
                 }
                 return true;
@@ -247,60 +232,54 @@ public class Actions {
         };
     }
 
-    public Action ControlledShot() {
-        return new Action() {
-            final ElapsedTime timer = new ElapsedTime();
-            boolean initialized = false;
-            double timeMarker = -500;
-            boolean recovering = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                // Phase 1: Wait for ball2 (the start signal)
-                if (!initialized) {
-                    timer.reset();
-                    initialized = true;
-                }
-                double currentTime = timer.milliseconds();
-
-                if (!launcher.atTargetRPM(launcher.getGoalRPM(), toleranceRPM)){
-                    pulley.state = Pulley.State.Off;
-                    intake.state = State.STOPPED;
-                    red = true;
-                    green = false;
-
-                    // only mark once
-                    if (!recovering) {
-                        timeMarker = currentTime;
-                        recovering = true;
-                    }
-                }
-
-                if (launcher.atTargetRPM(launcher.getGoalRPM(), toleranceRPM)
-                        && currentTime-timeMarker >=500) {
-
-                    pulley.state = Pulley.State.Slow;
-                    intake.state = State.INTAKING;
-                    green = true;
-                    red = false;
-
-                    recovering = false;
-                }
-
-                if(timer.milliseconds()>=pulleyShootTime+800){
-                    pulley.state = Pulley.State.Off;
-                    intake.state = State.STOPPED;
-                    holder.state = Servo.State.STOP1;
-                    red = false;
-                    green = false;
-
-                    return false;
-                }
-                return true;
-            }
-        };
-    }
+//    public Action ControlledShot() {
+//        return new Action() {
+//            final ElapsedTime timer = new ElapsedTime();
+//            boolean initialized = false;
+//            double timeMarker = -500;
+//            boolean recovering = false;
+//
+//            @Override
+//            public boolean run(@NonNull TelemetryPacket packet) {
+//
+//                // Phase 1: Wait for ball2 (the start signal)
+//                if (!initialized) {
+//                    timer.reset();
+//                    initialized = true;
+//                }
+//                double currentTime = timer.milliseconds();
+//
+//                if (!launcher.atTargetRPM(launcher.getGoalRPM(), toleranceRPM)){
+//                    intake.state = State.STOPPED;
+//
+//
+//                    // only mark once
+//                    if (!recovering) {
+//                        timeMarker = currentTime;
+//                        recovering = true;
+//                    }
+//                }
+//
+//                if (launcher.atTargetRPM(launcher.getGoalRPM(), toleranceRPM)
+//                        && currentTime-timeMarker >=500) {
+//
+//                    intake.state = State.INTAKING;
+//
+//
+//                    recovering = false;
+//                }
+//
+//                if(timer.milliseconds()>=pulleyShootTime+800){
+//                    intake.state = State.STOPPED;
+//                    holder.state = Servo.State.STOP1;
+//
+//
+//                    return false;
+//                }
+//                return true;
+//            }
+//        };
+//    }
 
     double toleranceRPM = 150;
 
@@ -342,23 +321,14 @@ public class Actions {
         return new SequentialAction(
                 StartShooter,
                 StopIntake,
-                ReleaseBall,
-                WaitAction(servoReleaseTime),
+//                ReleaseBall,
+//                WaitAction(servoReleaseTime),
                 WaitForLauncher(),
-                CycleShootClose()
+                CycleShoot()
         );
     }
 
 
-    public SequentialAction ShootSlow() {
-        return new SequentialAction(
-                StartShooter,
-                StopIntake,
-                ReleaseBall,
-                WaitAction(servoReleaseTime),
-                WaitForLauncher(),
-                ControlledShot()
-        );
-    }
+
 
 }
