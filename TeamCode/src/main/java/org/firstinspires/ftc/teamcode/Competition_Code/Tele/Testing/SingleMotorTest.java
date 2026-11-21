@@ -17,7 +17,7 @@ public class SingleMotorTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        motor = hardwareMap.get(DcMotorEx.class, "intake");
+        motor = hardwareMap.get(DcMotorEx.class, "launcher");
         //telemetry = FtcDashboard.getInstance().getTelemetry();
 
         waitForStart();

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Competition_Code.Tele.Testing;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.SingleLauncher;
@@ -10,8 +11,8 @@ import org.firstinspires.ftc.teamcode.Competition_Code.Subsystems.SingleLauncher
 @TeleOp(name = "Double Motor Test", group = "Linear OpMode")
 public class doubleMotorTestAidin extends LinearOpMode {
 
-    public SingleLauncher motor1;
-    public SingleLauncher motor2;
+    public DcMotorEx motor1;
+    public DcMotorEx motor2;
 
     double motor1Speed;
     double motor2Speed;
@@ -20,8 +21,8 @@ public class doubleMotorTestAidin extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        motor1 = new SingleLauncher(hardwareMap, "launcher");
-        motor2 = new SingleLauncher(hardwareMap, "intake1");
+        motor1 = hardwareMap.get(DcMotorEx.class, "launcher");
+        motor2 = hardwareMap.get(DcMotorEx.class, "intake");
 
         telemetry = FtcDashboard.getInstance().getTelemetry();
 
@@ -40,7 +41,7 @@ public class doubleMotorTestAidin extends LinearOpMode {
                 motor2Speed += 0.1;
                 timer.reset();
             }
-            else if (gamepad1.left_trigger_pressed && timer.milliseconds() >=100){
+            else if (gamepad1.right_trigger_pressed && timer.milliseconds() >=100){
                 motor2Speed -= 0.1;
                 timer.reset();
             }
@@ -58,15 +59,13 @@ public class doubleMotorTestAidin extends LinearOpMode {
                 motor2Speed = 0;
             }
 
-            motor1.setSpeed(motor1Speed);
-            motor1.update();
-            motor2.setSpeed(motor2Speed);
-            motor2.update();
+            motor1.setPower(motor1Speed);
+            motor2.setPower(motor2Speed);
 
             telemetry.addData("Motor 1 Power: ", motor1Speed);
-            telemetry.addData("Motor 1 RPM: ", motor1.getRpm());
+            telemetry.addData("Motor 1 Velocity: ", motor1.getVelocity());
             telemetry.addData("Motor 2 Power: ", motor2Speed);
-            telemetry.addData("Motor 2 RPM: ", motor2.getRpm());
+            telemetry.addData("Motor 2 Velocity: ", motor2.getVelocity());
 
             telemetry.update();
 
