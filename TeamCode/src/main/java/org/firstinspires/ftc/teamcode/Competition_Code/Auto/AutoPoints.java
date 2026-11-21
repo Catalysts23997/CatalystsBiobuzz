@@ -19,11 +19,11 @@ public enum AutoPoints {
     Flower2Red(new Vector2d(-15,58), 0.0),
     GardenStartRed(new Vector2d(-40, -63), Math.PI),
     GardenEndRed(new Vector2d(-63, -63), Math.PI),
-    EndRed(new Vector2d(-60 ,21), Math.PI),
+    EndRed(new Vector2d(-60 ,20), Math.PI),
     MidRed(new Vector2d(-40,-40), 5*Math.PI/4),
 
-    Start1Blue(new Vector2d(12.5, 63), Math.PI),
-    Start2Blue(new Vector2d(12.5, -63), Math.PI),
+    Start1Blue(new Vector2d(12.5, 64), Math.PI),
+    Start2Blue(new Vector2d(12.5, -64), Math.PI),
     Start3Blue(new Vector2d(64, 0), Math.PI),
 
     Launch1Blue(new Vector2d(12.5,55), Math.PI),
@@ -33,7 +33,7 @@ public enum AutoPoints {
     Flower2Blue(new Vector2d(15,-58), 0.0),
     GardenStartBlue(new Vector2d(40, 63), Math.PI),
     GardenEndBlue(new Vector2d(63, 63), Math.PI),
-    EndBlue(new Vector2d(55,-53), Math.PI),
+    EndBlue(new Vector2d(60,-20), Math.PI),
     MidBlue(new Vector2d(40,-40), 5*Math.PI/4),
 
 
